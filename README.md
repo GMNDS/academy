@@ -72,7 +72,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - Biblioteca virtual
 - Visualizar grade horaria
 
-## Geral
+## Visitantes
 
 - Visualizar cursos
 - Cursos livres
