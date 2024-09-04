@@ -1,23 +1,4 @@
-## Criar atividades
-### Usuários
-  - Professor
-### Fluxo Normal
 
-1. O professor vai abrir o [sistema](home.md)
-2. O professor fará o [login](login.md) no sistema 
-3. O professor seleciona o painel do professor
-4. O professor selecionar a turma
-5. O professor seleciona a opção de atividades
-6. O professor selecionar a opção de criar atividade
-7. Será aberta uma opção para o professor selecionar se será uma atividade aberta ou multipla escolha
-8. Se o professor selecionar a opçao de multipla ele seguirá por [multipla escolha](multipla_escolha.md)
-9. Se ele seleciona a opcao de atividade aberta seguir por [atividade aberta](atividade_aberta.md)
-10. Aparecerá um resumo com as informaçoes da atividade
-11. Clicar em confirmar envio da atividade ou editar
-12. Será enviado os dados para o banco de dados 
-
-- A data de ínicio da atividade deve ser automática
-### Fluxo de exceção
 
 
 ---
