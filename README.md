@@ -41,7 +41,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - Análise de dados
 - Gestão de documentos
 
-## Professor
+## [Professor](./Requisitos/Professor/README.md)
 
 - [ ] Lançar notas
 - [x]  Lançar faltas
