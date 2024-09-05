@@ -1,4 +1,4 @@
-## Lançar Faltas
+## Lançar notas
 ### Usuários
 - Professor
 

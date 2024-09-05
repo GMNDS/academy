@@ -3,8 +3,8 @@
   - Professor
 ### Fluxo Normal
 
-1. O professor abre o portal acadêmico [sistema](home.md)
-2. O professor fará o [login](autenticacao.md) no sistema 
+1. O professor abre o portal acadêmico
+2. O professor fará o [login](../Login/README.md) no sistema 
 3. O professor seleciona o painel do professor
 4. O professor selecionar a turma
 5. O professor seleciona a opção de atividades
