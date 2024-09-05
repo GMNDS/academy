@@ -17,11 +17,11 @@
    3. Se ele clicar em remover abrirá um campo de confirmação para confirmar a exclusão, clicando em sim será excluído, clicando em não a operação será cancelada
    4.  O professor  poderá selecionar uma aula e irá decidir se arrasta o bloco da aula ou apenas ajusta o horário para encaixar no calendário, logo após arrastar ou ajustar o horário, o bloco aparece automaticamente no calendário.
 9.  O professor clica em enviar 
-10. Será enviado os dados para o servidor e adicionado ao banco de dados.
-11. Será enviado um webhook para o aplicativo e 
+10. Dosdos enviados para o servidor e adicionados no banco de dados
+11. É enviado um webhook que gera uma notificação no aplicativo e modificado no banco de dados de false para true uma tabela de envio de webhook
 ## Fluxo de exceçao
    
-1. 
+8. 
    1.
       - Limite de 280 caracteres
       - Aulas não podem ter o mesmo nome da outra
@@ -35,7 +35,11 @@
       - Aulas não podem ter o mesmo nome de outra
       - Não pode colocar dois blocos de aulas no mesmo horário.
       - Se a aula for adicionada a um horário anterior vai aparecer um campo de confirmação
-9.
+9. Se o professor enviar sem adicionar o campo com a descrição receberá uma mensagem de erro informando que o campo é obrigatório.
+10. 
+    1.  Se a resposta que o servidor devolver for um erro é informada uma mensagem em vermelho informando que houve um erro e para enviar novamente
+    2.  Se a mensagem já tiver no banco de dados verifica-se se a tabela de envio de webhook está como true se estiver é informado uma mensagem em veemelho informando que a mensagem já foi enviada
+11. Se a resposta do webhook for um erro é informada uma mensagem em vermelho informando que houve um erro e para enviar a notificação e fazer o envio novamente
  
 
 - Nas configuracoes do aluno ter opcao de ativar ou desativar notificacoes
