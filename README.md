@@ -12,7 +12,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - Publicar vagas
 - Publicar notícias instituicionas
 
-### Acadêmico
+### Acadêmico (GOE - Gerente de organização escolar)
 
 - Gerenciar matrículas
 - Gerenciar turmas e horários
@@ -20,6 +20,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - Criar matérias
 - Gerir calendário acadêmico
 - Suporte e atendimento
+- Fazer o fechamento bimestres/semestral
 
 ### RH
 
@@ -42,18 +43,17 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 
 ## Professor
 
-- Lançar notas
-- Lançar faltas
-- Lançar atividade com atribuição de nota
-- Feedback individual das atividades caso necessário
-- Criar provas
-- Criar observações do aluno
-- Criar plano de aula
-- Disponibilizar material didático
-- Criar e gerenciar fóruns de discussão
-- Comunicar imprevistos
-- Acompanhar desempenho dos alunos individualmente e em grupo
-- Comunicação direto com aluno por chat
+- [ ] Lançar notas
+- [x]  Lançar faltas
+- [ ]  Lançar atividade e provas com atribuição de nota (aberta ou multipla escolha com opcao de anexo)
+- [x]  Feedback individual das atividades caso necessário
+- [ ]  Criar observações do aluno
+- [x]  Criar plano de aula
+- [ ]  Disponibilizar material didático
+- [ ]  Criar e gerenciar fóruns de discussão
+- [x]  Comunicar imprevistos
+- [ ]  Acompanhar desempenho dos alunos individualmente e em grupo
+- [ ]  Comunicação direto com aluno por chat
 
 ## Aluno
 
@@ -104,6 +104,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - API para sistemas externos
 - Suporte a OIDC e logins por rede social
 - Formas de pagamento
+- Funções google
 
 ## Tecnologias
 
