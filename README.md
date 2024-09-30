@@ -16,25 +16,34 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 
 - Gerenciar matrículas
 - Gerenciar turmas e horários
-- Gerar relatórios acadêmicos
-- Criar matérias
-- Gerir calendário acadêmico
+- Gerenciar Cursos
+- Gerenciar Disciplinas
+- Gerenciar calendário acadêmico
+- Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
 - Suporte e atendimento
-- Fazer o fechamento bimestres/semestral
+- Gerar relatórios acadêmicos
+
+## Marketing
+- Criar comunicação interna
 
 ### RH
-
-- Gerir funcionários
-- Comunicação interna
-- Gestão de parcerias
+- Ver funcionários
+- Gerenciar parcerias
+- Ver banco de talentos
+- Gerenciar candidatos
+- Gerenciar benefícios
+- Gerenciar férias e licenças
+- Gerenciar jornada de trabalho dos funcionários
+- Criar treinamentos
 
 ### Finanças
 
-- Gerenciamento de finanças
-- Auditoria/compliance
+- Gerenciar finanças
+- Gerenciar Auditorias e compliance
 
 ### Infraestrutura e segurança
 
+- Gerenciar funcionários (acessos)
 - Controle de acesso e segurança
 - Backup e restauração de dados
 - Logs do sistema
