@@ -52,17 +52,17 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 
 ## [Professor](./Requisitos/Professor/README.md)
 
-- [ ] Lançar notas
+- [x]  Criar plano de aula
 - [x]  Lançar faltas
+- [ ] Lançar notas
 - [ ]  Lançar atividade e provas com atribuição de nota (aberta ou multipla escolha com opcao de anexo)
 - [x]  Feedback individual das atividades caso necessário
 - [ ]  Criar observações do aluno
-- [x]  Criar plano de aula
 - [ ]  Disponibilizar material didático
 - [ ]  Criar e gerenciar fóruns de discussão
-- [x]  Comunicar imprevistos
 - [ ]  Acompanhar desempenho dos alunos individualmente e em grupo
 - [ ]  Comunicação direto com aluno por chat
+- [x]  Comunicar imprevistos
 
 ## Aluno
 
