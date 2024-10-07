@@ -7,7 +7,6 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 
 ### Publicações
 - [ ] Publicar eventos
-- [ ] Publicar vagas
 - [ ] Publicar notícias instituicionas
 
 ### Acadêmico (GOE - Gerente de organização escolar)
@@ -32,5 +31,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Acessar presença
 - [ ] Acessar notas
 - [ ] Acessar histórico acadêmico
+- [ ] Acessar eventos
+- [ ] Acessar notícias
 - [ ] Acessar grade horária
 - [ ] Enviar atividades e provas
+
