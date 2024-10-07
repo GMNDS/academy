@@ -7,125 +7,132 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 ## Gestão
 
 ### Publicações
-
-- Publicar eventos
-- Publicar vagas
-- Publicar notícias instituicionas
+#### Funcionalidades principais
+- [ ] Publicar eventos
+- [ ] Publicar vagas
+- [ ] Publicar notícias instituicionas
 
 ### Acadêmico (GOE - Gerente de organização escolar)
+#### Funcionalidades principais
+- [ ] Gerenciar matrículas
+- [ ] Gerenciar turmas e horários
+- [ ] Gerenciar Cursos
+- [ ] Gerenciar Disciplinas
 
-- Gerenciar matrículas
-- Gerenciar turmas e horários
-- Gerenciar Cursos
-- Gerenciar Disciplinas
-- Gerenciar calendário acadêmico
-- Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
-- Suporte e atendimento
-- Gerar relatórios acadêmicos
+### Outras funcionalidades
+- [ ] Gerenciar calendário acadêmico
+- [ ] Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
+- [ ] Suporte e atendimento
+- [ ] Gerar relatórios acadêmicos
 
 ## Marketing
-- Criar comunicação interna
+- [ ] Criar comunicação interna
 
 ### RH
-- Ver funcionários
-- Gerenciar parcerias
-- Ver banco de talentos
-- Gerenciar candidatos
-- Gerenciar benefícios
-- Gerenciar férias e licenças
-- Gerenciar jornada de trabalho dos funcionários
-- Criar treinamentos
+- [ ] Ver funcionários
+- [ ] Gerenciar parcerias
+- [ ] Ver banco de talentos
+- [ ] Gerenciar candidatos
+- [ ] Gerenciar benefícios
+- [ ] Gerenciar férias e licenças
+- [ ] Gerenciar jornada de trabalho dos funcionários
+- [ ] Criar treinamentos
 
 ### Finanças
 
-- Gerenciar finanças
-- Gerenciar Auditorias e compliance
+- [ ] Gerenciar finanças
+- [ ] Gerenciar Auditorias e compliance
 
 ### Infraestrutura e segurança
 
-- Gerenciar funcionários (acessos)
-- Controle de acesso e segurança
-- Backup e restauração de dados
-- Logs do sistema
-- Análise de dados
-- Gestão de documentos
+- [ ] Gerenciar funcionários (acessos)
+- [ ] Controle de acesso e segurança
+- [ ] Backup e restauração de dados
+- [ ] Logs do sistema
+- [ ] Análise de dados
+- [ ] Gestão de documentos
 
 ## [Professor](./Requisitos/Professor/README.md)
-
+### Funcionalidades principais
 - [x]  Criar plano de aula
-- [x]  Lançar faltas
-- [ ] Lançar notas
-- [ ]  Lançar atividade e provas com atribuição de nota (aberta ou multipla escolha com opcao de anexo)
-- [x]  Feedback individual das atividades caso necessário
-- [ ]  Criar observações do aluno
-- [ ]  Disponibilizar material didático
-- [ ]  Criar e gerenciar fóruns de discussão
-- [ ]  Acompanhar desempenho dos alunos individualmente e em grupo
-- [ ]  Comunicação direto com aluno por chat
+- [x]  Lançar presença
+- [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
+- [ ]  Lançar notas
+- [ ]  Criar atividades de provas
+
+### Outras funcionalidades
+- [ ]  Adicionar comentário sobre aluno
+- [ ]  Enviar material didático
+- [ ]  Gerar relatórios e estatísticas da turma
+- [ ]  Responder mensagens do chat
+- [ ]  Criar e gerenciar fóruns de discussão
 
 ## Aluno
+### Funcionalidades principais
+- [ ] Acessar página inicial (contém aulas do dia com status, atividades, eventos e notícias)
+- [ ] Acessar plano de aula
+- [ ] Acessar presença
+- [ ] Acessar notas
+- [ ] Acessar histórico acadêmico
+- [ ] Acessar grade horária
+- [ ] Enviar atividades e provas
 
-- Ter acesso fácil na página inicial a atividades, eventos, status da aula, notícias, etc.
-- Receber notificações
-- Criação de grupos
-- Adicionar livros
-- Visualizar notas e histórico acadêmico
-- Visualizar faltas com verificação do limite
-- Solicitar revisão de notas e faltas
-- Solicitar documentos acadêmicos
-- Acessar material didático
-- Participar de fóruns de discussão
-- Enviar trabalhos e atividades
-- Acompanhar progresso acadêmico
-- Biblioteca virtual
-- Visualizar grade horaria
+### Outras funcionalidades
+- [ ] Acessar material didático
+- [ ] Solicitar documentos acadêmicos
+- [ ] Solicitar revisão de notas e faltas
+- [ ] Receber notificações
+- [ ] Adicionar livros
+- [ ] Participar de fóruns de discussão
+- [ ] Acompanhar progresso acadêmico
+- [ ] Biblioteca virtual
 
 ## Visitantes
 
-- Visualizar cursos
-- Cursos livres
-- Calendário acadêmico integrado
-- FAQs e suporte técnico
-- Notícias e avisos
-- Acompanhar eventos
+- [ ] Visualizar cursos
+- [ ] Cursos livres
+- [ ] Calendário acadêmico integrado
+- [ ] FAQs e suporte técnico
+- [ ] Notícias e avisos
+- [ ] Acompanhar eventos
 
 ## Recursos diversos
 
-- Criar sistema de permissão para cada sistema(Criar,Editar,Ver,Deletar)
-- Implementar sistema de média flexível, podendo ser alterada para ponderada, aritmética ou outro tipo.
-- Criar histórico de alterações de notas
-- Criar estatísticas por aluno individualmente
-- Gerar boletins
-- Criar dashboards para análises
-- Criar sistema de feedback de professores de forma anônima
-- Gamificar a experiência criando um sistema de créditos
-- Criar atividades, eventos, notícias no mesmo editor de texto porém com uma aba para selecionar, adicioanando ou removendo componentes conforme necessário
-- Notificação em tempo real
-- Análise para prever o desempenho do aluno com IA
-- Ferramentas de colaboração
-- Acesso offline
-- Integração com redes sociais
-- Sistema de estágios (integrar com linkeding talvez)
+- [ ] Criar sistema de permissão para cada sistema(Criar,Editar,Ver,Deletar)
+- [ ] Implementar sistema de média flexível, podendo ser alterada para ponderada, aritmética ou outro tipo.
+- [ ] Criar histórico de alterações de notas
+- [ ] Criar estatísticas por aluno individualmente
+- [ ] Gerar boletins
+- [ ] Criar dashboards para análises
+- [ ] Criar sistema de feedback de professores de forma anônima
+- [ ] Gamificar a experiência criando um sistema de créditos
+- [ ] Criar atividades, eventos, notícias no mesmo editor de texto porém com uma aba para selecionar, adicioanando ou removendo componentes conforme necessário
+- [ ] Notificação em tempo real
+- [ ] Análise para prever o desempenho do aluno com IA
+- [ ] Ferramentas de colaboração
+- [ ] Acesso offline
+- [ ] Integração com redes sociais
+- [ ] Sistema de estágios (integrar com linkeding talvez)
 
 ## Integrações
 
-- API para sistemas externos
-- Suporte a OIDC e logins por rede social
-- Formas de pagamento
-- Funções google
+- [ ] API para sistemas externos
+- [ ] Suporte a OIDC e logins por rede social
+- [ ] Formas de pagamento
+- [ ] Funções google
 
 ## Tecnologias
 
-- Prova de conceito com Figma, HTML, CSS e Javascript (Foco)
-- Front end com React + Typescript
-- Banco de dados Posgresql
-- Backend com Java ☕ (API FIRST)
-- Backend com Rust 🦀 (Eu sei que não)
-- Testes com Junit(Se fosse Rust já tinha integrado)
-- Cache com Redis(Nem sei direito oque é mas sei que usam pra isso)
-- Hospedagem oracle cloud para desenvolvimento
-- Hospedagem AWS para produção
-- Utilizar Github Actions para CI/CD e automatização de processos
-- Usar docker para containerização do projeto
-- Monitoramento e logs com Prometheus e Grafana
+- [ ] Prova de conceito com Figma, HTML, CSS e Javascript (Foco)
+- [ ] Front end com React + Typescript
+- [ ] Banco de dados Posgresql
+- [ ] Backend com Java ☕ (API FIRST)
+- [ ] Backend com Rust 🦀 (Eu sei que não)
+- [ ] Testes com Junit(Se fosse Rust já tinha integrado)
+- [ ] Cache com Redis(Nem sei direito oque é mas sei que usam pra isso)
+- [ ] Hospedagem oracle cloud para desenvolvimento
+- [ ] Hospedagem AWS para produção
+- [ ] Utilizar Github Actions para CI/CD e automatização de processos
+- [ ] Usar docker para containerização do projeto
+- [ ] Monitoramento e logs com Prometheus e Grafana
