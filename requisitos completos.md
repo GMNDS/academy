@@ -14,6 +14,7 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 
 ### Acadêmico (GOE - Gerente de organização escolar)
 #### Funcionalidades principais
+- [ ] Gerenciar acessos
 - [ ] Gerenciar matrículas
 - [ ] Gerenciar turmas e horários
 - [ ] Gerenciar Cursos
@@ -22,35 +23,9 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 ### Outras funcionalidades
 - [ ] Gerenciar calendário acadêmico
 - [ ] Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
-- [ ] Suporte e atendimento
 - [ ] Gerar relatórios acadêmicos
-
-## Marketing
 - [ ] Criar comunicação interna
-
-### RH
-- [ ] Ver funcionários
-- [ ] Gerenciar parcerias
-- [ ] Ver banco de talentos
-- [ ] Gerenciar candidatos
-- [ ] Gerenciar benefícios
-- [ ] Gerenciar férias e licenças
-- [ ] Gerenciar jornada de trabalho dos funcionários
-- [ ] Criar treinamentos
-
-### Finanças
-
-- [ ] Gerenciar finanças
-- [ ] Gerenciar Auditorias e compliance
-
-### Infraestrutura e segurança
-
-- [ ] Gerenciar funcionários (acessos)
-- [ ] Controle de acesso e segurança
-- [ ] Backup e restauração de dados
-- [ ] Logs do sistema
-- [ ] Análise de dados
-- [ ] Gestão de documentos
+- [ ] Suporte e atendimento
 
 ## [Professor](./Requisitos/Professor/README.md)
 ### Funcionalidades principais
@@ -97,6 +72,10 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - [ ] Notícias e avisos
 - [ ] Acompanhar eventos
 
+## Recursos de sistema
+- [ ] Logs do sistema
+- [ ] Backup e restauração de dados (S3 e compativeis)
+- [ ] Notificação em tempo real
 ## Recursos diversos
 
 - [ ] Criar sistema de permissão para cada sistema(Criar,Editar,Ver,Deletar)
@@ -108,12 +87,14 @@ Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvo
 - [ ] Criar sistema de feedback de professores de forma anônima
 - [ ] Gamificar a experiência criando um sistema de créditos
 - [ ] Criar atividades, eventos, notícias no mesmo editor de texto porém com uma aba para selecionar, adicioanando ou removendo componentes conforme necessário
-- [ ] Notificação em tempo real
+
 - [ ] Análise para prever o desempenho do aluno com IA
 - [ ] Ferramentas de colaboração
 - [ ] Acesso offline
 - [ ] Integração com redes sociais
 - [ ] Sistema de estágios (integrar com linkeding talvez)
+
+
 
 ## Integrações
 
