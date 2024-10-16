@@ -24,7 +24,7 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Criar comunicação interna
 - [ ] Suporte e atendimento
 
-## [Professor](./Requisitos/Professor/README.md)
+## Professor
 ### Funcionalidades principais
 - [x]  Criar plano de aula
 - [x]  Lançar presença
@@ -39,6 +39,7 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ]  Gerar relatórios e estatísticas da turma
 - [ ]  Responder mensagens do chat
 - [ ]  Criar e gerenciar fóruns de discussão
+- [ ]  Teste
 
 ## Aluno
 ### Funcionalidades principais

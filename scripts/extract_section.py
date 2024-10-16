@@ -18,8 +18,8 @@ def extract_section(input_file, output_file, section_title):
 
 # Define the input and output files and the section title
 input_file = 'docs/README.md'
-output_file = 'docs/Professor/README.md'
-section_title = '## [Professor](./Requisitos/Professor/README.md)'
+output_file = 'docs/Requisitos/Professor/README.md'
+section_title = '## Professor'
 
 # Extract the section
 extract_section(input_file, output_file, section_title)
