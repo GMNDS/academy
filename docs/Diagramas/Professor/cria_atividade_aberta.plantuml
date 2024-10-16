@@ -1,0 +1,41 @@
+@startuml Criar atividade aberta
+skinparam actorBackgroundColor #blue
+skinparam actorBorderColor #darkblue
+actor professor << (A,#orange) >>
+
+package "Criar atividade aberta" {
+    usecase "Abrir Portal acadêmico" as CAA1 << (U,#lightgreen) >>
+    usecase "Fazer login no sistema" as CAA2
+    usecase "Selecionar painel do professor" as CAA3 
+    usecase "Selecionar turma" as CAA4
+    usecase "Selecionar opção atividades" as CAA5
+    usecase "Selecionar opção criar atividade" as CAA6
+    usecase "Selecionar atividade aberta" as CAA7
+    usecase "Abrir editor de atividade" as CAA8
+    usecase "Digitar descrição da atividade" as CAA9
+    usecase "Selecionar quantidade de pontos" as CAA10
+    usecase "Selecionar data de expiração" as CAA11
+    usecase "Selecionar data de entrega" as CAA12
+    usecase "Selecionar formato de arquivo" as CAA13
+    usecase "Selecionar quantidade máxima de pessoas" as CAA14
+    usecase "Salvar atividade" as CAA15
+    usecase "Receber confirmação de criação" as CAA16
+}
+
+professor -> CAA1
+CAA1 --.> CAA2 : <<include>>
+CAA2 --.> CAA3 : <<include>>
+CAA3 --.> CAA4 : <<include>>
+CAA4 --.> CAA5 : <<include>>
+CAA5 --.> CAA6 : <<include>>
+CAA6 --.> CAA7 : <<include>>
+CAA7 --.> CAA8 : <<include>>
+CAA9 --.> CAA8 : <<extends>>
+CAA10 --.> CAA8 : <<extends>>
+CAA11 --.> CAA8 : <<extends>>
+CAA12 --.> CAA8 : <<extends>>
+CAA13 --.> CAA8 : <<extends>>
+CAA14 --.> CAA8 : <<extends>>
+CAA15 --.> CAA16 : <<include>>
+
+@enduml

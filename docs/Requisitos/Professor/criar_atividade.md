@@ -19,4 +19,4 @@
 
 - A data de ínicio da atividade deve ser automática
 ### Fluxo de exceção
-11. Se houver um erro na resposta do servidor aparecerá uma tela em vermelho informando o erro e pedindo para tentar novamente
+11\. Se houver um erro na resposta do servidor aparecerá uma tela em vermelho informando o erro e pedindo para tentar novamenteO

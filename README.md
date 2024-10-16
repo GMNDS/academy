@@ -18,3 +18,8 @@ Ele está sendo desenvolvido primariamente no PowerApps para prova de conceito e
 - Métricas e logs: 
 - Ambiente de desenvolvimento: Docker
 
+
+## Documentação:
+
+- [Requisitos](docs/Requisitos/)
+- Componentes powerapps

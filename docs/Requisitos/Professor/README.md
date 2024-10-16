@@ -4,12 +4,12 @@
 - [x]  Lançar presença
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
-- [ ]  Lançar notas
+- [x]  Lançar notas
 - [ ]  Criar atividades de provas
+- [ ]  Enviar material didático
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
-- [ ]  Enviar material didático
 - [ ]  Gerar relatórios e estatísticas da turma
 - [ ]  Responder mensagens do chat
 - [ ]  Criar e gerenciar fóruns de discussão

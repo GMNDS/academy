@@ -28,8 +28,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [x]  Lançar presença
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
-- [ ]  Lançar notas
-- [ ]  Criar atividades de provas
+- [x]  Lançar notas
+- [x]  Criar atividades de provas
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno

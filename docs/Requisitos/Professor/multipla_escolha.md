@@ -1,2 +1,0 @@
-## multipla escolha
-será aberto um formulário que contém a descriçao, as escolhas possiveis e uma opcao de proximo, caso queira adicionar uma nova, uma de enviar caso queira lançar, uma de salvar rascunho caso queira salvar mas nao lançar e uma de cancelar
