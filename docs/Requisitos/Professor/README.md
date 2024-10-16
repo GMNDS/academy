@@ -13,4 +13,3 @@
 - [ ]  Gerar relatórios e estatísticas da turma
 - [ ]  Responder mensagens do chat
 - [ ]  Criar e gerenciar fóruns de discussão
-- [ ]  Teste

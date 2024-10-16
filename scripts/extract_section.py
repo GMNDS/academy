@@ -1,25 +1,39 @@
 import re
+import os
 
-def extract_section(input_file, output_file, section_title):
+input_file = 'docs/Requisitos/README.md'
+# output_file = 'docs/Requisitos/Professor/README.md'
+# section_title = '## Professor'
+
+def extract_section(input_file):
     with open(input_file, 'r', encoding='utf-8') as file:
         content = file.read()
 
     # Regex to find the section and its content
-    pattern = re.compile(rf'({section_title}.*?)(?=\n## |\Z)', re.DOTALL)
-    match = pattern.search(content)
+    pattern_folders = re.compile(r'^##\s([\w\s\-?]+?)\s*$', re.MULTILINE)
+    pattern_content = re.compile(r'(##.*?)(?=\n## |\Z)', re.DOTALL)
+    match_folder = pattern_folders.findall(content)
+    match_content = pattern_content.findall(content)
+    match_len = len(match_content)
 
-    if match:
-        section_content = match.group(1)
-        with open(output_file, 'w', encoding='utf-8') as file:
-            file.write(section_content)
-        print(f'Section "{section_title}" has been extracted to {output_file}')
+    if match_folder and match_content:
+        for i in range(match_len):
+            section_title = match_folder[i]
+            section_content = match_content[i]
+            output_file = os.path.join('docs', 'Requisitos', section_title, 'README.md')
+            os.makedirs(os.path.dirname(output_file), exist_ok=True)
+            with open(output_file, 'w', encoding='utf-8') as file:
+                 file.write(section_content)
+            print(f'Section "{section_title}" has been extracted to {output_file}')
     else:
         print(f'Section "{section_title}" not found in {input_file}')
 
 # Define the input and output files and the section title
-input_file = 'docs/README.md'
-output_file = 'docs/Requisitos/Professor/README.md'
-section_title = '## Professor'
+
+
+
+
+
 
 # Extract the section
-extract_section(input_file, output_file, section_title)
+extract_section(input_file)

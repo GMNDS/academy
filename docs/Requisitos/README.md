@@ -2,23 +2,21 @@
 
 Academy é um sistema criado para o projeto interdisciplinar do curso de Desenvolvimento de Software Multiplataforma, focado em um sistema educacional genérico que possa ser utilizado por faculdades e cursos, podendo ser personalizável para cada empresa e com uma grande gama de ferramentas para melhor experiência do aluno, professor e administração da instituição.
 
-Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do semestre letivo.
-## Gestão
+Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do semestre letivo. E também demais funcionalidades que serão implementadas em seguida.
 
-### Publicações
+## GOE - Gerente de organização escolar
+### Funcionalidades principais
 - [ ] Publicar eventos
 - [ ] Publicar vagas
 - [ ] Publicar notícias instituicionas
-
-### Acadêmico (GOE - Gerente de organização escolar)
 - [ ] Gerenciar acessos
 - [ ] Gerenciar matrículas
 - [ ] Gerenciar turmas e horários
 - [ ] Gerenciar Cursos
 - [ ] Gerenciar Disciplinas
+- [ ] Gerenciar calendário acadêmico
 
 ### Outras funcionalidades
-- [ ] Gerenciar calendário acadêmico
 - [ ] Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
 - [ ] Gerar relatórios acadêmicos
 - [ ] Criar comunicação interna
@@ -70,29 +68,14 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Acessar Notícias
 - [ ] Acessar eventos
 
-## Recursos de sistema
+## Regras de negócio
 
-- [ ] API FIRST
-- [ ] Logs do sistema
-- [ ] Backup e restauração de dados (S3 e compativeis)
-- [ ] Notificação em tempo real
-- [ ] Sistema de login Social
-- [ ] Sistema de login por OIDC
-- [ ] Acesso offline
-- [ ] Sistema de crédito gamificado
-- [ ] Sistema de média desacoplado
-- [ ] Permissão por nível de usuário
-- [ ] Diversas formas de pagamento (Stripe, Mercado Pago, Assas)
-
-## Stack
-
-- Prova de conceito com Figma, HTML, CSS e Javascript (Foco)
-- Front end: 
-- Back end: 
-- Banco de dados relacional : Posgresql
-- Biblioteca de testes: 
-- Sistema de cache: Redis
-- CI/CD: Github Actions
-- Hospedagem: 
-- Métricas e logs: 
-- Ambiente de desenvolvimento: Docker
+- [ ] Deve ser API FIRST
+- [ ] Deve ter Backup de dados com sistema S3 ou compatível
+- [ ] Deve ter logs sobre as operações feitas pelos usuários
+- [ ] Deve ter sistema de login social e oidc
+- [ ] Deve ter acesso offline
+- [ ] Deve ter um sistema de créditos estudantis gamificado
+- [ ] Deve ter um sistema de média que pode ser modificado facilmente para outro
+- [ ] Deve ter permissões de usuários bem estabelecidas para cada usuário
+- [ ] Deve ter várias formas de pagamento
