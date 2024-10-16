@@ -39,7 +39,6 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ]  Gerar relatórios e estatísticas da turma
 - [ ]  Responder mensagens do chat
 - [ ]  Criar e gerenciar fóruns de discussão
-- [ ]  Teste
 
 ## Aluno
 ### Funcionalidades principais
