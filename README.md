@@ -9,6 +9,7 @@ Ele está sendo desenvolvido primariamente no PowerApps para prova de conceito e
 - Prova de conceito com Figma, HTML, CSS e Javascript (Foco)
 - Front end: 
 - Back end: 
+- Frameworks: 
 - Banco de dados relacional : Posgresql
 - Biblioteca de testes: 
 - Sistema de cache: Redis
