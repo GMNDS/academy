@@ -5,11 +5,11 @@
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
 - [x]  Lançar notas
-- [ ]  Criar atividades de provas
-- [ ]  Enviar material didático
+- [x]  Criar atividades de provas
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
+- [ ]  Enviar material didático
 - [ ]  Gerar relatórios e estatísticas da turma
 - [ ]  Responder mensagens do chat
 - [ ]  Criar e gerenciar fóruns de discussão
