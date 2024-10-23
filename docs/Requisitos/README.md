@@ -6,13 +6,13 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 
 ## GOE - Gerente de organização escolar
 ### Funcionalidades principais
-- [ ] Gerenciar acessos
-- [ ] Gerenciar matrículas
-- [ ] Gerenciar Cursos
-- [ ] Gerenciar turmas e horários
-- [ ] Publicar eventos
-- [ ] Publicar notícias instituicionas
-- [ ] Gerenciar Disciplinas
+- [x] Gerenciar acessos
+- [x] Gerenciar matrículas
+- [x] Gerenciar Cursos
+- [x] Gerenciar turmas e horários
+- [x] Publicar eventos
+- [x] Publicar notícias instituicionas
+- [x] Gerenciar Disciplinas
 
 ### Outras funcionalidades
 - [ ] Gerenciar calendário acadêmico
@@ -27,7 +27,7 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [x]  Criar plano de aula
 - [x]  Lançar notas
 - [x]  Lançar presença
-- [x]  Criar atividades de provas
+- [x]  Criar atividades e provas
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
 
