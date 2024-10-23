@@ -6,17 +6,17 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 
 ## GOE - Gerente de organização escolar
 ### Funcionalidades principais
-- [ ] Publicar eventos
-- [ ] Publicar vagas
-- [ ] Publicar notícias instituicionas
 - [ ] Gerenciar acessos
 - [ ] Gerenciar matrículas
-- [ ] Gerenciar turmas e horários
 - [ ] Gerenciar Cursos
+- [ ] Gerenciar turmas e horários
+- [ ] Publicar eventos
+- [ ] Publicar notícias instituicionas
 - [ ] Gerenciar Disciplinas
-- [ ] Gerenciar calendário acadêmico
 
 ### Outras funcionalidades
+- [ ] Gerenciar calendário acadêmico
+- [ ] Publicar vagas
 - [ ] Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
 - [ ] Gerar relatórios acadêmicos
 - [ ] Criar comunicação interna
@@ -25,11 +25,11 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 ## Professor
 ### Funcionalidades principais
 - [x]  Criar plano de aula
+- [x]  Lançar notas
 - [x]  Lançar presença
+- [x]  Criar atividades de provas
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
-- [x]  Lançar notas
-- [x]  Criar atividades de provas
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
@@ -42,11 +42,16 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 ### Funcionalidades principais
 - [ ] Acessar página inicial (contém aulas do dia com status, atividades, eventos e notícias)
 - [ ] Acessar plano de aula
-- [ ] Acessar presença
 - [ ] Acessar notas
+- [ ] Acessar presença
+- [ ] Acessar atividades e provas
+- [ ] Enviar atividades e provas
+- [ ] Acessar cursos
+- [ ] Acessar matérias
+- [ ] Acessar evenos
+- [ ] Acessar notícias
 - [ ] Acessar histórico acadêmico
 - [ ] Acessar grade horária
-- [ ] Enviar atividades e provas
 
 ### Outras funcionalidades
 - [ ] Acessar material didático
@@ -58,6 +63,7 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Acompanhar progresso acadêmico
 - [ ] Biblioteca virtual
 - [ ] Gerar feedback
+- [ ] Acessar vagas
 
 ## Visitantes
 
