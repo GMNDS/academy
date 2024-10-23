@@ -3,7 +3,7 @@
 - [x]  Criar plano de aula
 - [x]  Lançar notas
 - [x]  Lançar presença
-- [x]  Criar atividades de provas
+- [x]  Criar atividades e provas
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
 
