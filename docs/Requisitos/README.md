@@ -14,6 +14,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [x] Publicar notícias instituicionas
 - [x] Gerenciar Disciplinas
 
+- [ ] Revisados
+
 ### Outras funcionalidades
 - [ ] Gerenciar calendário acadêmico
 - [ ] Publicar vagas
@@ -30,6 +32,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [x]  Criar atividades e provas
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
+
+- [ ] Revisados
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
@@ -53,6 +57,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Acessar histórico acadêmico
 - [ ] Acessar grade horária
 
+- [ ] Revisados
+
 ### Outras funcionalidades
 - [ ] Acessar material didático
 - [ ] Solicitar documentos acadêmicos
@@ -73,6 +79,8 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 - [ ] Acessar suporte técnico
 - [ ] Acessar Notícias
 - [ ] Acessar eventos
+
+- [ ] Revisados
 
 ## Regras de negócio
 
