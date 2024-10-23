@@ -7,6 +7,8 @@
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
 
+- [ ] Revisados
+
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
 - [ ]  Enviar material didático

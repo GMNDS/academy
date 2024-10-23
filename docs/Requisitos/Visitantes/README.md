@@ -6,3 +6,5 @@
 - [ ] Acessar suporte técnico
 - [ ] Acessar Notícias
 - [ ] Acessar eventos
+
+- [ ] Revisados

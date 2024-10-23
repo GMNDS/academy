@@ -13,6 +13,8 @@
 - [ ] Acessar histórico acadêmico
 - [ ] Acessar grade horária
 
+- [ ] Revisados
+
 ### Outras funcionalidades
 - [ ] Acessar material didático
 - [ ] Solicitar documentos acadêmicos

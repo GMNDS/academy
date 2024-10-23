@@ -8,6 +8,8 @@
 - [x] Publicar notícias instituicionas
 - [x] Gerenciar Disciplinas
 
+- [ ] Revisados
+
 ### Outras funcionalidades
 - [ ] Gerenciar calendário acadêmico
 - [ ] Publicar vagas
