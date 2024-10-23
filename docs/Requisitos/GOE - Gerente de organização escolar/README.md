@@ -7,9 +7,9 @@
 - [ ] Publicar eventos
 - [ ] Publicar notícias instituicionas
 - [ ] Gerenciar Disciplinas
-- [ ] Gerenciar calendário acadêmico
 
 ### Outras funcionalidades
+- [ ] Gerenciar calendário acadêmico
 - [ ] Publicar vagas
 - [ ] Gerenciar ciclos acadêmicos (bimestral,semestral,etc.)
 - [ ] Gerar relatórios acadêmicos
