@@ -2,11 +2,16 @@
 ### Funcionalidades principais
 - [ ] Acessar página inicial (contém aulas do dia com status, atividades, eventos e notícias)
 - [ ] Acessar plano de aula
-- [ ] Acessar presença
 - [ ] Acessar notas
+- [ ] Acessar presença
+- [ ] Acessar atividades e provas
+- [ ] Enviar atividades e provas
+- [ ] Acessar cursos
+- [ ] Acessar matérias
+- [ ] Acessar evenos
+- [ ] Acessar notícias
 - [ ] Acessar histórico acadêmico
 - [ ] Acessar grade horária
-- [ ] Enviar atividades e provas
 
 ### Outras funcionalidades
 - [ ] Acessar material didático
@@ -18,3 +23,4 @@
 - [ ] Acompanhar progresso acadêmico
 - [ ] Biblioteca virtual
 - [ ] Gerar feedback
+- [ ] Acessar vagas

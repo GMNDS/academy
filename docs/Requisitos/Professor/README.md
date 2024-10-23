@@ -1,11 +1,11 @@
 ## Professor
 ### Funcionalidades principais
 - [x]  Criar plano de aula
+- [x]  Lançar notas
 - [x]  Lançar presença
+- [x]  Criar atividades de provas
 - [x]  Devolver atividades e provas
 - [x]  Comunicar imprevistos
-- [x]  Lançar notas
-- [x]  Criar atividades de provas
 
 ### Outras funcionalidades
 - [ ]  Adicionar comentário sobre aluno
