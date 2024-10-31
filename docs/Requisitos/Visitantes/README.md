@@ -1,5 +1,6 @@
 ## Visitantes
 
+- [ ] Fazer login
 - [ ] Visualizar cursos disponíveis
 - [ ] Visualizar calendário acadêmico integrado
 - [ ] Acessar FAQ
