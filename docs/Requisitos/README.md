@@ -73,6 +73,7 @@ Abaixo estão as funcionalidades principais que o sistema deve ter até o fim do
 
 ## Visitantes
 
+- [ ] Fazer login
 - [ ] Visualizar cursos disponíveis
 - [ ] Visualizar calendário acadêmico integrado
 - [ ] Acessar FAQ
