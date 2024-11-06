@@ -1,4 +1,4 @@
-@startuml
+@startuml "Cria atividade aberta"
 skinparam actorBackgroundColor #darkblue
 skinparam actorBorderColor #darkblue
 left to right direction
@@ -20,11 +20,15 @@ package "Criar atividade aberta" {
     usecase "Selecionar data de entrega" as CAA12
     usecase "Selecionar formato de arquivo" as CAA13
     usecase "Selecionar quantidade máxima de pessoas" as CAA14
-    usecase "Salvar atividade" as CAA15
+    usecase "Clicar em salvar atividade" as CAA15
     usecase "Receber confirmação de criação" as CAA16
 
+    usecase "Todos campos obrigatórios precisam ser preenchidos" as ECAA8.1
     usecase "Descriçâo com mais de 5000 caracteres" as ECAA9.1
     usecase "A descrição deve ter menos de 5000 caracteres" as ECAA9.2
+    usecase "A data de expiração deve ser maior que a data de entrega" as ECAA11.1
+    usecase "A data de entrega deve ser maior que a data atual" as ECAA11.2
+    
 
 
 
@@ -46,9 +50,13 @@ CAA8 -.> CAA12 : <<include>>
 CAA8 -.> CAA13 : <<include>>
 CAA8 -.> CAA14 : <<include>>
 
-ECAA9.1 -.> CAA9 : <<extends>>
-ECAA9.1 -.> ECAA9.2 : <<include>>
-ECAA9.2 -.> CAA9 : <<include>>
+ECAA8.1 -down.> CAA15 : <<extends>>
+ECAA9.1 -down.> CAA15 : <<extends>>
+ECAA9.1 -down.> ECAA9.2 : <<include>>
+ECAA9.2 -.> CAA15 : <<include>>
+ECAA11.1 -.> CAA15 : <<extends>>
+ECAA11.2 -.> CAA15 : <<extends>>
+
 
 CAA9 -.> CAA15 : <<include>>
 CAA10 -.> CAA15 : <<include>>
