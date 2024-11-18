@@ -1,0 +1,17 @@
+@startuml "comunicar imprevisto"
+actor professor
+
+package "Comunicar imprevisto" {
+    usecase "Abrir Portal acadêmico" as CI1
+    usecase "Fazer login no sistema" as CI2
+    usecase "Selecionar painel do professor" as CI3 
+    usecase "Selecionar opção comunicar imprevisto" as CI4
+    usecase "Digitar descrição do imprevisto" as CI6
+    usecase "Selecionar data do imprevisto" as CI7
+    usecase "Selecionar "
+    usecase "Enviar mensagem" as CI8
+    usecase "Receber confirmação de envio" as CI9
+
+
+}
+@enduml
