@@ -2,6 +2,9 @@ package com.gmnds.academy.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "courses")
@@ -14,13 +17,19 @@ public class CourseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String course_name;
-    private String category;
-    private Integer duration;
-    private Integer frequency;
-
     @ManyToOne
     @JoinColumn(name = "institution_id")
     private InstitutionModel institution;
+    private String name;
+    private Integer duration; //Semestres
+    private String category; //Exatas, Humanas, Biologicas, etc
+    private Integer frequency;
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    @Builder.Default
+    private boolean active = true;
+
 
 }
