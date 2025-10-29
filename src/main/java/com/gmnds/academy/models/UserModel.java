@@ -49,10 +49,11 @@ public class UserModel implements UserDetails {
     private boolean active = true;
 
 
-    public UserModel(String email, String password, UserRole role) {
+    public UserModel(String ra, String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.ra = ra;
     }
 
     @Override
