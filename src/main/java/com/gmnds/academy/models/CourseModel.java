@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
@@ -17,6 +19,7 @@ public class CourseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "institution_id")
     private InstitutionModel institution;
@@ -30,6 +33,9 @@ public class CourseModel {
     @Column(nullable = false, columnDefinition = "boolean default true")
     @Builder.Default
     private boolean active = true;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DisciplineModel> disciplinas = new ArrayList<>();
 
 
 }
