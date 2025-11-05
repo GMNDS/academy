@@ -1,6 +1,6 @@
 package com.gmnds.academy.services;
 
-import com.gmnds.academy.repositories.UserRepository;
+import com.gmnds.academy.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    UserRepository repUser;
+    StudentRepository repUser;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

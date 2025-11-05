@@ -3,8 +3,8 @@ package com.gmnds.academy.controllers;
 import com.gmnds.academy.dto.LoginDTO;
 import com.gmnds.academy.dto.RegisterDTO;
 import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.UserModel;
-import com.gmnds.academy.repositories.UserRepository;
+import com.gmnds.academy.models.StudentModel;
+import com.gmnds.academy.repositories.StudentRepository;
 import jakarta.validation.Valid;
 import com.gmnds.academy.dto.AuthenticationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserRepository repUser;
+    private StudentRepository repUser;
     @Autowired
     private TokenService tokenService;
 
@@ -33,7 +33,7 @@ public class AuthenticationController {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(userPassword);
 
-        var token = tokenService.generateToken((UserModel) auth.getPrincipal());
+        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginDTO(token));
     }
@@ -44,7 +44,7 @@ public class AuthenticationController {
         if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
 
         String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        UserModel newuser = new UserModel(data.ra(), data.login(), encodedPassword, data.role());
+        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
 
         this.repUser.save(newuser);
 

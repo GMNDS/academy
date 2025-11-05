@@ -1,32 +1,33 @@
 package com.gmnds.academy.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Tests")
+@Table(name = "exams")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-public class TestModel {
+public class ExamModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "disciplina_id")
-    private DisciplineModel disciplina;
+    @JoinColumn(name = "subject_id")
+    @JsonBackReference
+    private SubjectModel subject;
 
-    @Column(name = "data_prova")
-    private LocalDate date_Test;
-
-    @Column(name = "tipo")
+    @Column(name = "exam_date")
+    private LocalDate examDate;
     private String type;
+//    private Double weight;
 
 }

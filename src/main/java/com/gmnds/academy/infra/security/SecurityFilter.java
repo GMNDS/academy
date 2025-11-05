@@ -1,6 +1,6 @@
 package com.gmnds.academy.infra.security;
 
-import com.gmnds.academy.repositories.UserRepository;
+import com.gmnds.academy.repositories.StudentRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokenService tokenService;
 
     @Autowired
-    UserRepository repUser;
+    StudentRepository repUser;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
