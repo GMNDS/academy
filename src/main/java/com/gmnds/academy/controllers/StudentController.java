@@ -1,8 +1,8 @@
 package com.gmnds.academy.controllers;
 
 import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.UserModel;
-import com.gmnds.academy.repositories.UserRepository;
+import com.gmnds.academy.models.StudentModel;
+import com.gmnds.academy.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,70 +12,70 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/students")
+public class StudentController {
 
     @Autowired
-    private UserRepository repUser;
+    private StudentRepository repStudent;
     @Autowired
     private TokenService tokenService;
 
     @GetMapping
-    public List<UserModel> getAllUsers() {
-        return repUser.findAll();
+    public List<StudentModel> getAllStudents() {
+        return repStudent.findAll();
     }
 
-    private boolean validateUserAcess(Long id, String authorization) {
+    private boolean validateStudentAcess(Long id, String authorization) {
 
         String token = authorization.replace("Bearer ", "");
-        Long authenticatedUserId = tokenService.getUserId(token);
+        Long authenticatedStudentId = tokenService.getUserId(token);
 
-        return id.equals(authenticatedUserId);
+        return id.equals(authenticatedStudentId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserModel> getUserById(@PathVariable  Long id, @RequestHeader("Authorization") String authorization) {
-        if (!validateUserAcess(id, authorization)) {
+    public ResponseEntity<StudentModel> getStudentById(@PathVariable  Long id, @RequestHeader("Authorization") String authorization) {
+        if (!validateStudentAcess(id, authorization)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        return repUser.findById(id)
-                .map(user -> ResponseEntity.ok().body(user))
+        return repStudent.findById(id)
+                .map(Student -> ResponseEntity.ok().body(Student))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserModel> updateUser(@PathVariable Long id, @RequestBody UserModel user, @RequestHeader("Authorization") String authorization) {
-        if (!validateUserAcess(id, authorization)) {
+    public ResponseEntity<StudentModel> updateStudent(@PathVariable Long id, @RequestBody StudentModel Student, @RequestHeader("Authorization") String authorization) {
+        if (!validateStudentAcess(id, authorization)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Optional<UserModel> us = repUser.findById(id);
+        Optional<StudentModel> us = repStudent.findById(id);
 
         if (us.isPresent()) {
-            UserModel existingUser = us.get();
-            existingUser.setName(user.getName());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword());
+            StudentModel existingStudent = us.get();
+            existingStudent.setName(Student.getName());
+            existingStudent.setEmail(Student.getEmail());
+            existingStudent.setPassword(Student.getPassword());
 
-            UserModel updatedUser = repUser.save(existingUser);
-            return ResponseEntity.ok(updatedUser);
+            StudentModel updatedStudent = repStudent.save(existingStudent);
+            return ResponseEntity.ok(updatedStudent);
         }
             return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<Void> deleteStudent(@RequestHeader("Authorization") String authorization) {
         String token = authorization.replace("Bearer ", "");
-        Long authenticatedUserId = tokenService.getUserId(token);
+        Long authenticatedStudentId = tokenService.getUserId(token);
 
-        Optional<UserModel> us = repUser.findById(authenticatedUserId);
+        Optional<StudentModel> us = repStudent.findById(authenticatedStudentId);
 
         if (us.isPresent()) {
             boolean active = us.get().isActive();
             if (active) {
                 us.get().setActive(false);
-                repUser.save(us.get());
+                repStudent.save(us.get());
                 return ResponseEntity.ok().build();
             }
             return ResponseEntity.notFound().build();
