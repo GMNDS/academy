@@ -1,5 +1,6 @@
 package com.gmnds.academy.controllers;
 
+import com.gmnds.academy.dto.AddUserDTO;
 import com.gmnds.academy.infra.security.TokenService;
 import com.gmnds.academy.models.UserModel;
 import com.gmnds.academy.repositories.UserRepository;
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserModel> updateUser(@PathVariable Long id, @RequestBody UserModel user, @RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<UserModel> updateUser(@PathVariable Long id, @RequestBody AddUserDTO data, @RequestHeader("Authorization") String authorization) {
         if (!validateUserAcess(id, authorization)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -54,9 +55,9 @@ public class UserController {
 
         if (us.isPresent()) {
             UserModel existingUser = us.get();
-            existingUser.setName(user.getName());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword());
+            existingUser.setName(data.name());
+            existingUser.setEmail(data.email());
+            existingUser.setPassword(data.password());
 
             UserModel updatedUser = repUser.save(existingUser);
             return ResponseEntity.ok(updatedUser);
