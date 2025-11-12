@@ -1,9 +1,11 @@
 package com.gmnds.academy.controllers;
 
+import com.gmnds.academy.dto.AddInstitutionDTO;
+import com.gmnds.academy.dto.UpdateInstitutionDTO;
+import com.gmnds.academy.models.CourseModel;
 import com.gmnds.academy.models.InstitutionModel;
 import com.gmnds.academy.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +33,21 @@ public class InstitutionController {
     }
 
     @PostMapping
-    public InstitutionModel createInstitution(@RequestBody InstitutionModel institution) {
-        return repInstitution.save(institution);
+    public ResponseEntity<InstitutionModel> createInstitution(@RequestBody AddInstitutionDTO data) {
+
+        //InstitutionModel institutionModel = institutionOptional.get();
+
+        InstitutionModel newInstitution = new InstitutionModel();
+        newInstitution.setName(data.name());
+        newInstitution.setAcronym(data.acronym());
+        newInstitution.setType(data.type());
+
+        InstitutionModel savedInstitution = repInstitution.save(newInstitution);
+        return ResponseEntity.status(201).body(savedInstitution);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InstitutionModel> updateInstitution(@PathVariable Long id, @RequestBody InstitutionModel institution) {
+    public ResponseEntity<InstitutionModel> updateInstitution(@PathVariable Long id, @RequestBody UpdateInstitutionDTO data) {
         Optional<InstitutionModel> inst = repInstitution.findById(id);
 
         if(inst.isPresent()) {
@@ -44,6 +55,7 @@ public class InstitutionController {
             existingInstitution.setName(inst.get().getName());
             existingInstitution.setAcronym(inst.get().getAcronym());
             existingInstitution.setType(inst.get().getType());
+            existingInstitution.setActive(inst.get().isActive());
 
             InstitutionModel updatedInstitution = repInstitution.save(existingInstitution);
             return ResponseEntity.ok(updatedInstitution);
