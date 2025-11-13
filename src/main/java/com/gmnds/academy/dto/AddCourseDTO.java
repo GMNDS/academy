@@ -1,6 +1,6 @@
 package com.gmnds.academy.dto;
 
-import com.gmnds.academy.models.CourseModel;
+import java.io.Serializable;
 
-public record AddCourseDTO(String name, String institution, Integer duration, String category, Integer frequency) {
+public record AddCourseDTO(String name, String institution, Integer duration, String category, Integer frequency) implements Serializable {
 }

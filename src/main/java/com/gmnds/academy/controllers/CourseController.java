@@ -1,6 +1,7 @@
 package com.gmnds.academy.controllers;
 
 import com.gmnds.academy.dto.AddCourseDTO;
+import com.gmnds.academy.dto.CourseResponseDTO;
 import com.gmnds.academy.dto.UpdateCourseDTO;
 import com.gmnds.academy.models.CourseModel;
 import com.gmnds.academy.models.InstitutionModel;
@@ -24,15 +25,35 @@ public class CourseController {
     private InstitutionRepository institutionRepository;
 
     @GetMapping
-    public List<CourseModel> getAllCourses() {
-        return courseService.findAll();
+    public List<CourseResponseDTO> getAllCourses() {
+        List<CourseModel> courses = courseService.findAll();
+        return courses.stream()
+                .map(course -> new CourseResponseDTO(
+                        course.getId(),
+                        course.getName(),
+                        course.getInstitution().getName(),
+                        course.getDuration(),
+                        course.getCategory(),
+                        course.getFrequency(),
+                        course.isActive()
+                ))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseModel> getCourseById(@PathVariable Long id) {
+    public ResponseEntity<CourseResponseDTO> getCourseById(@PathVariable Long id) {
         try {
             CourseModel course = courseService.findById(id);
-            return ResponseEntity.ok(course);
+            CourseResponseDTO dto = new CourseResponseDTO(
+                    course.getId(),
+                    course.getName(),
+                    course.getInstitution().getName(),
+                    course.getDuration(),
+                    course.getCategory(),
+                    course.getFrequency(),
+                    course.isActive()
+            );
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -57,13 +78,26 @@ public class CourseController {
         newCourse.setFrequency(data.frequency());
 
         CourseModel savedCourse = courseService.create(newCourse);
-        return ResponseEntity.status(201).body(savedCourse);
+        CourseResponseDTO dto = new CourseResponseDTO(
+                savedCourse.getId(),
+                savedCourse.getName(),
+                savedCourse.getInstitution().getName(),
+                savedCourse.getDuration(),
+                savedCourse.getCategory(),
+                savedCourse.getFrequency(),
+                savedCourse.isActive()
+        );
+        return ResponseEntity.status(201).body(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseModel> updateCourse(@PathVariable Long id, @RequestBody UpdateCourseDTO data) {
+    public ResponseEntity<?> updateCourse(@PathVariable Long id, @RequestBody UpdateCourseDTO data) {
 
         Optional<InstitutionModel> institutionOptional = institutionRepository.findByNameIgnoreCase(data.institution());
+
+        if (institutionOptional.isEmpty()) {
+            return ResponseEntity.status(404).body("Instituição não encontrada com o nome: " + data.institution());
+        }
 
         CourseModel newData = new CourseModel();
         newData.setName(data.name());
@@ -75,7 +109,16 @@ public class CourseController {
 
         try {
             CourseModel updatedCourse = courseService.update(id, newData);
-            return ResponseEntity.ok(updatedCourse);
+            CourseResponseDTO dto = new CourseResponseDTO(
+                    updatedCourse.getId(),
+                    updatedCourse.getName(),
+                    updatedCourse.getInstitution().getName(),
+                    updatedCourse.getDuration(),
+                    updatedCourse.getCategory(),
+                    updatedCourse.getFrequency(),
+                    updatedCourse.isActive()
+            );
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

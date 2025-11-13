@@ -3,8 +3,6 @@ package com.gmnds.academy.models;
 import com.gmnds.academy.enums.InstitutionTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.Constraint;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
