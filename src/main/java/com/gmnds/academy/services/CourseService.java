@@ -17,12 +17,11 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    @Cacheable("courses")
     public List<CourseModel> findAll() {
         return courseRepository.findAll();
     }
 
-    @Cacheable(value = "courses", key = "#id")
+    @Cacheable(value = "course", key = "#id")
     public CourseModel findById(Long id) {
         Optional<CourseModel> courseOptional = courseRepository.findById(id);
         if (courseOptional.isEmpty()) {
@@ -31,12 +30,12 @@ public class CourseService {
         return courseOptional.get();
     }
 
-    @CachePut(value = "courses", key = "#result.id")
+    @CachePut(value = "course", key = "#result.id")
     public CourseModel create(CourseModel course) {
         return courseRepository.save(course);
     }
 
-    @CachePut(value = "courses", key = "#id")
+    @CachePut(value = "course", key = "#id")
     public CourseModel update(Long id, CourseModel newData) {
         CourseModel existingCourse = findById(id);
         existingCourse.setName(newData.getName());
@@ -48,7 +47,7 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    @CacheEvict(value = "courses", key = "#id")
+    @CacheEvict(value = "course", key = "#id")
     public void delete(Long id) {
         courseRepository.deleteById(id);
     }
