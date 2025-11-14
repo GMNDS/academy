@@ -1,54 +1,43 @@
 package com.gmnds.academy.controllers;
 
-import com.gmnds.academy.dto.AuthenticationDTO;
-import com.gmnds.academy.dto.LoginDTO;
-import com.gmnds.academy.dto.RegisterDTO;
-import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.StudentModel;
-import com.gmnds.academy.repositories.StudentRepository;
-import jakarta.validation.Valid;
+import com.gmnds.academy.models.AbsenceModel;
+import com.gmnds.academy.services.AbsenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("auth")
+import java.util.List;
+
 @RestController
+@RequestMapping("/absences" )
 public class AbsenceController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private StudentRepository repUser;
-    @Autowired
-    private TokenService tokenService;
+    private AbsenceService absenceService;
 
-    @PostMapping("login")
-    public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(userPassword);
 
-        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginDTO(token));
+    @GetMapping
+    public List<AbsenceModel> getAllAbsences() {
+    return null;
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO data) {
+    @GetMapping("/{id}")
+    public ResponseEntity<AbsenceModel> getAbsenceById(@PathVariable Long id) {
+        return ResponseEntity.notFound().build();
+    }
 
-        if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+    @PostMapping
+    public ResponseEntity<?> createAbsence(@RequestBody Object data) {
+        return ResponseEntity.status(201).build();
+    }
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
-
-        this.repUser.save(newuser);
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAbsence(@PathVariable Long id, @RequestBody Object data) {
         return ResponseEntity.ok().build();
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAbsence(@PathVariable Long id) {
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,54 +1,89 @@
 package com.gmnds.academy.controllers;
 
-import com.gmnds.academy.dto.AuthenticationDTO;
-import com.gmnds.academy.dto.LoginDTO;
-import com.gmnds.academy.dto.RegisterDTO;
-import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.StudentModel;
-import com.gmnds.academy.repositories.StudentRepository;
-import jakarta.validation.Valid;
+import com.gmnds.academy.dto.AddSubjectDTO;
+import com.gmnds.academy.dto.UpdateSubjectDTO;
+import com.gmnds.academy.models.SubjectModel;
+import com.gmnds.academy.repositories.SubjectRepository;
+import com.gmnds.academy.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("auth")
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@RequestMapping("/subjects" )
 public class SubjectController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private SubjectService subjectService;
+
     @Autowired
-    private StudentRepository repUser;
-    @Autowired
-    private TokenService tokenService;
+    private SubjectRepository subjectRepository;
 
-    @PostMapping("login")
-    public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(userPassword);
 
-        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
+    //@GetMapping
+    //public List<SubjectModel> getAllSubjects() {
+    //
+    //    return null;
+    //}
 
-        return ResponseEntity.ok(new LoginDTO(token));
+    @GetMapping("/{id}")
+    public ResponseEntity<SubjectModel> getSubjectById(@PathVariable Long id) {
+        // Busca por ID
+        return subjectRepository.findById(id)
+                .map(subject -> ResponseEntity.ok().body(subject))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO data) {
+    @PostMapping
+    public ResponseEntity<SubjectModel> createSubject(@RequestBody AddSubjectDTO data) {
 
-        if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+        SubjectModel newSubject = new SubjectModel();
+        newSubject.setName(data.name());
+        newSubject.setCourse(data.course());
+        newSubject.setCode(data.code());
+        newSubject.setTotalClasses(data.totalClasses());
+        newSubject.setProfessor(data.professor());
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
+        SubjectModel savedSubject = subjectRepository.save(newSubject);
+        return ResponseEntity.status(201).body(savedSubject);
+    }
 
-        this.repUser.save(newuser);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSubject(@PathVariable Long id, @RequestBody UpdateSubjectDTO data) {
+        Optional<SubjectModel> subjectOptional = subjectRepository.findById(id);
 
-        return ResponseEntity.ok().build();
+        if (subjectOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        SubjectModel existingSubject = subjectOptional.get();
+        // Atualiza os campos no DTO
+        existingSubject.setName(data.name());
+        existingSubject.setCourse(data.course());
+        existingSubject.setCode(data.code());
+        existingSubject.setTotalClasses(data.totalClasses());
+        existingSubject.setProfessor(data.professor());
+
+        try {
+            SubjectModel updatedSubject = subjectService.update(id, existingSubject);
+            return ResponseEntity.ok(updatedSubject);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
+        try {
+            subjectService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

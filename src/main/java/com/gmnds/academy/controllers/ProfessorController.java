@@ -1,54 +1,79 @@
 package com.gmnds.academy.controllers;
 
-import com.gmnds.academy.dto.AuthenticationDTO;
-import com.gmnds.academy.dto.LoginDTO;
-import com.gmnds.academy.dto.RegisterDTO;
-import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.StudentModel;
-import com.gmnds.academy.repositories.StudentRepository;
-import jakarta.validation.Valid;
+import com.gmnds.academy.dto.AddProfessorDTO;
+import com.gmnds.academy.dto.UpdateProfessorDTO;
+import com.gmnds.academy.models.GradeModel;
+import com.gmnds.academy.models.ProfessorModel;
+import com.gmnds.academy.repositories.ProfessorRepository;
+import com.gmnds.academy.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("auth")
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@RequestMapping("/professors" )
 public class ProfessorController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private ProfessorService professorService;
+
     @Autowired
-    private StudentRepository repUser;
-    @Autowired
-    private TokenService tokenService;
+    private ProfessorRepository professorRepository;
 
-    @PostMapping("login")
-    public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(userPassword);
+    //@GetMapping
+    //public List<ProfessorModel> getAllProfessors() {
+    //    return null;
+    //}
 
-        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginDTO(token));
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfessorModel> getProfessorById(@PathVariable Long id) {
+        return professorRepository.findById(id)
+                .map(subject -> ResponseEntity.ok().body(subject))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO data) {
+    @PostMapping
+    public ResponseEntity<?> createProfessor(@RequestBody AddProfessorDTO data) {
+        ProfessorModel newProfessor = new ProfessorModel();
+        newProfessor.setName(data.name());
 
-        if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+        ProfessorModel savedSubject = professorRepository.save(newProfessor);
+        return ResponseEntity.status(201).body(savedSubject);
+    }
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProfessor(@PathVariable Long id, @RequestBody UpdateProfessorDTO data) {
+        Optional<ProfessorModel> professorOptional = professorRepository.findById(id);
 
-        this.repUser.save(newuser);
+        if (professorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-        return ResponseEntity.ok().build();
+        ProfessorModel existingProfessor = professorOptional.get();
+        // Atualiza os campos no DTO
+        existingProfessor.setName(data.name());
 
+        try {
+            ProfessorModel updatedProfessor = professorService.update(id, existingProfessor);
+            return ResponseEntity.ok(updatedProfessor);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
+        try {
+            professorService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
     }
 }

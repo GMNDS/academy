@@ -4,7 +4,7 @@ import com.gmnds.academy.models.SubjectModel;
 
 import java.time.LocalDate;
 
-public record AddProfessorDTO(SubjectModel subject, LocalDate exam_date, String type) {
+public record AddProfessorDTO(String name) {
 }
 
 

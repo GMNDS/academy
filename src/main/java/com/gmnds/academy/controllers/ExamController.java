@@ -1,43 +1,78 @@
 package com.gmnds.academy.controllers;
 
-import com.gmnds.academy.dto.AddInstitutionDTO;
-import com.gmnds.academy.dto.UpdateInstitutionDTO;
-import com.gmnds.academy.models.CourseModel;
-import com.gmnds.academy.models.InstitutionModel;
-import com.gmnds.academy.repositories.InstitutionRepository;
+import com.gmnds.academy.dto.*;
+import com.gmnds.academy.models.ExamModel;
+import com.gmnds.academy.repositories.ExamRepository;
+import com.gmnds.academy.services.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("/exams")
 public class ExamController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private ExamService examService; // Injeção do Service
 
+    @Autowired
+    private ExamRepository examRepository;
 
-    @PostMapping("login")
-    public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(userPassword);
-
-        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginDTO(token));
+    @GetMapping("/{id}")
+    public ResponseEntity<ExamModel> getExamById(@PathVariable Long id) {
+        // Busca por ID
+        return examRepository.findById(id)
+                .map(exam -> ResponseEntity.ok().body(exam))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO data) {
+    @PostMapping
+    public ResponseEntity<ExamModel> createExam(@RequestBody AddExamDTO data) {
 
-        if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+        ExamModel newExam = new ExamModel();
+        newExam.setSubject(data.subject());
+        newExam.setExamDate(data.exam_date());
+        newExam.setType(data.type());
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
+        ExamModel savedExam = examRepository.save(newExam);
+        return ResponseEntity.status(201).body(savedExam);
+    }
 
-        this.repUser.save(newuser);
 
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateExam(@PathVariable Long id, @RequestBody UpdateExamDTO data) {
 
+        Optional<ExamModel> examOptional = examRepository.findById(id);
+
+        if (examOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ExamModel existingExam = examOptional.get();
+        // Atualiza os campos no DTO
+        existingExam.setSubject(data.subject());
+        existingExam.setExamDate(data.exam_date());
+        existingExam.setType(data.type());
+
+        try {
+            ExamModel updatedExam = examService.update(id, existingExam);
+            return ResponseEntity.ok(updatedExam);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExam(@PathVariable Long id) {
+        try {
+            examService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

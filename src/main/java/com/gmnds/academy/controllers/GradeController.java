@@ -1,54 +1,83 @@
 package com.gmnds.academy.controllers;
 
-import com.gmnds.academy.dto.AuthenticationDTO;
-import com.gmnds.academy.dto.LoginDTO;
-import com.gmnds.academy.dto.RegisterDTO;
-import com.gmnds.academy.infra.security.TokenService;
-import com.gmnds.academy.models.StudentModel;
-import com.gmnds.academy.repositories.StudentRepository;
-import jakarta.validation.Valid;
+import com.gmnds.academy.dto.AddGradeDTO;
+import com.gmnds.academy.dto.UpdateGradeDTO;
+import com.gmnds.academy.models.GradeModel;
+import com.gmnds.academy.repositories.GradeRepository;
+import com.gmnds.academy.services.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("auth")
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@RequestMapping("/grades" )
 public class GradeController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private GradeService gradeService;
+
     @Autowired
-    private StudentRepository repUser;
-    @Autowired
-    private TokenService tokenService;
+    private GradeRepository gradeRepository;
 
-    @PostMapping("login")
-    public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(userPassword);
 
-        var token = tokenService.generateToken((StudentModel) auth.getPrincipal());
+    //@GetMapping
+    //public List<GradeModel> getAllGrades() {
+    //    return null;
+    //}
 
-        return ResponseEntity.ok(new LoginDTO(token));
+    @GetMapping("/{id}")
+    public ResponseEntity<GradeModel> getGradeById(@PathVariable Long id) {
+        // Busca por ID
+        return gradeRepository.findById(id)
+                .map(subject -> ResponseEntity.ok().body(subject))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO data) {
+    @PostMapping
+    public ResponseEntity<?> createGrade(@RequestBody AddGradeDTO data) {
+        GradeModel newGrade = new GradeModel();
+        newGrade.setName(data.name());
+        newGrade.setWeight(data.weight());
+        newGrade.setInstitution(data.institution());
 
-        if(this.repUser.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+        GradeModel savedSubject = gradeRepository.save(newGrade);
+        return ResponseEntity.status(201).body(savedSubject);
+    }
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(data.password());
-        StudentModel newuser = new StudentModel(data.ra(), data.login(), encodedPassword, data.role());
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateGrade(@PathVariable Long id, @RequestBody UpdateGradeDTO data) {
+        Optional<GradeModel> gradeOptional = gradeRepository.findById(id);
 
-        this.repUser.save(newuser);
+        if (gradeOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-        return ResponseEntity.ok().build();
+        GradeModel existingGrade = gradeOptional.get();
+        // Atualiza os campos no DTO
+        existingGrade.setName(data.name());
+        existingGrade.setWeight(data.weight());
+        existingGrade.setInstitution(data.institution());
 
+        try {
+            GradeModel updatedGrade = gradeService.update(id, existingGrade);
+            return ResponseEntity.ok(updatedGrade);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGrade(@PathVariable Long id) {
+        try {
+            gradeService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

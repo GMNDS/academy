@@ -32,7 +32,7 @@ public class TaskModel {
     private String description;
     @Column(name = "due_date")
     private LocalDateTime dueDate;
-    private boolean completed;
+    private Boolean completed;
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
