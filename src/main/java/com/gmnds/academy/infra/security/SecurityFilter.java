@@ -24,13 +24,27 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+        
+        // Pula validação para endpoints públicos
+        if (path.startsWith("/auth/") || 
+            path.startsWith("/v3/api-docs") || 
+            path.startsWith("/swagger-ui") || 
+            path.equals("/docs.html")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         var token = this.recoverToken(request);
         if(token != null) {
             var email = tokenService.validateToken(token);
-            UserDetails user = repUser.findByEmail(email);
-
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (email != null && !email.isEmpty()) {
+                UserDetails user = repUser.findByEmail(email);
+                if (user != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
         }
         filterChain.doFilter(request, response);
     }

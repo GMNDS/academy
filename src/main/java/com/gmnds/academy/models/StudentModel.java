@@ -1,5 +1,7 @@
 package com.gmnds.academy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gmnds.academy.enums.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = {"institution", "course", "studentGrades", "absences", "tasks"})
+@EqualsAndHashCode(exclude = {"institution", "course", "studentGrades", "absences", "tasks"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StudentModel implements UserDetails {
 
     @Id
@@ -37,13 +42,15 @@ public class StudentModel implements UserDetails {
     @Schema(description = "URL da foto do estudante", example = "https://example.com/photo.jpg")
     private String photo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institution_id")
+    @JsonIgnore
     @Schema(description = "Instituição de ensino do estudante")
     private InstitutionModel institution;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     @Schema(description = "Curso do estudante")
     private CourseModel course;
 
@@ -59,6 +66,7 @@ public class StudentModel implements UserDetails {
     private String email;
 
     @Schema(description = "Senha do estudante", example = "senhaSegura123!")
+    @JsonIgnore
     private String password;
 
     @Schema(description = "Papel do estudante no sistema", example = "STUDENT", allowableValues = {"ADMIN", "STUDENT"})
@@ -75,14 +83,17 @@ public class StudentModel implements UserDetails {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @JsonIgnore
     private List<StudentGradeModel> studentGrades;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @JsonIgnore
     private List<AbsenceModel> absences;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @JsonIgnore
     private List<TaskModel> tasks;
 
     public StudentModel(String ra, String email, String password, UserRole role) {
@@ -93,6 +104,7 @@ public class StudentModel implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         GrantedAuthority adminAuthority = () -> "ROLE_ADMIN";
         GrantedAuthority userAuthority = () -> "ROLE_USER";
@@ -108,21 +120,25 @@ public class StudentModel implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return UserDetails.super.isAccountNonLocked();
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
