@@ -46,7 +46,7 @@ public class ExamService {
 
     @CachePut(value = "exam", key = "#id")
     @CacheEvict(value = {"exams"}, allEntries = true)
-    public ExamModel update(Long id, ExamModel newData) {
+    public ExamModel save(Long id, ExamModel newData) {
         ExamModel exam = findById(id);
 
         exam.setExamDate(newData.getExamDate());
@@ -61,7 +61,7 @@ public class ExamService {
     }
 
 
-    @CacheEvict(value= {"courses", "course"}, allEntries = true)
+    @CacheEvict(value= {"exams", "exam"}, allEntries = true)
     public void delete(Long id){
         examRepository.deleteById(id);
     }

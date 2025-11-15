@@ -1,5 +1,6 @@
 package com.gmnds.academy.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,10 @@ public class ProfessorModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único do professor", example = "1")
     private Long id;
+    
+    @Schema(description = "Nome completo do professor", example = "Dr. João Silva")
     private String name;
 //    private String email;
 //    @ManyToOne

@@ -1,71 +1,79 @@
 package com.gmnds.academy.controllers;
 
 import com.gmnds.academy.dto.AddProfessorDTO;
+import com.gmnds.academy.dto.ProfessorResponseDTO;
 import com.gmnds.academy.dto.UpdateProfessorDTO;
-import com.gmnds.academy.models.GradeModel;
 import com.gmnds.academy.models.ProfessorModel;
-import com.gmnds.academy.repositories.ProfessorRepository;
 import com.gmnds.academy.services.ProfessorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/professors" )
+@Tag(name = "Professores", description = "Gerenciamento de professores")
 public class ProfessorController {
 
     @Autowired
     private ProfessorService professorService;
 
-    @Autowired
-    private ProfessorRepository professorRepository;
-
-    //@GetMapping
-    //public List<ProfessorModel> getAllProfessors() {
-    //    return null;
-    //}
+    @GetMapping
+    @Operation(summary = "Listar todos os professores", description = "Retorna a lista completa de professores cadastrados")
+    public List<ProfessorResponseDTO> getAllProfessors() {
+        List<ProfessorModel> professors = professorService.findAll();
+        return professors.stream()
+                .map(professor -> new ProfessorResponseDTO(
+                        professor.getId(),
+                        professor.getName()
+                ))
+                .toList();
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfessorModel> getProfessorById(@PathVariable Long id) {
-        return professorRepository.findById(id)
-                .map(subject -> ResponseEntity.ok().body(subject))
-                .orElse(ResponseEntity.notFound().build());
+    @Operation(summary = "Buscar professor por ID", description = "Retorna um professor específico pelo ID")
+    public ResponseEntity<ProfessorResponseDTO> getProfessorById(@PathVariable Long id) {
+        try {
+            ProfessorModel professor = professorService.findById(id);
+            ProfessorResponseDTO dto = new ProfessorResponseDTO(
+                    professor.getId(),
+                    professor.getName()
+            );
+            return ResponseEntity.ok(dto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
-    public ResponseEntity<?> createProfessor(@RequestBody AddProfessorDTO data) {
+    @Operation(summary = "Criar professor", description = "Cadastra um novo professor")
+    public ResponseEntity<ProfessorModel> createProfessor(@RequestBody AddProfessorDTO data) {
         ProfessorModel newProfessor = new ProfessorModel();
         newProfessor.setName(data.name());
 
-        ProfessorModel savedSubject = professorRepository.save(newProfessor);
-        return ResponseEntity.status(201).body(savedSubject);
+        ProfessorModel savedProfessor = professorService.create(newProfessor);
+        return ResponseEntity.status(201).body(savedProfessor);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfessor(@PathVariable Long id, @RequestBody UpdateProfessorDTO data) {
-        Optional<ProfessorModel> professorOptional = professorRepository.findById(id);
-
-        if (professorOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ProfessorModel existingProfessor = professorOptional.get();
-        // Atualiza os campos no DTO
-        existingProfessor.setName(data.name());
+    @Operation(summary = "Atualizar professor", description = "Atualiza os dados de um professor existente")
+    public ResponseEntity<ProfessorModel> updateProfessor(@PathVariable Long id, @RequestBody UpdateProfessorDTO data) {
+        ProfessorModel newData = new ProfessorModel();
+        newData.setName(data.name());
 
         try {
-            ProfessorModel updatedProfessor = professorService.update(id, existingProfessor);
+            ProfessorModel updatedProfessor = professorService.save(id, newData);
             return ResponseEntity.ok(updatedProfessor);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
-
         }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar professor", description = "Remove um professor pelo ID")
     public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
         try {
             professorService.delete(id);
@@ -73,7 +81,5 @@ public class ProfessorController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.noContent().build();
-    }
     }
 }

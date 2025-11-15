@@ -11,6 +11,6 @@ import java.util.Optional;
 
 
 @Repository
-public interface StudentGradeRepository extends JpaRepository<StudentModel, Long> {
-    Optional<StudentGradeModel> findByName(StudentModel student);
-    }
+public interface StudentGradeRepository extends JpaRepository<StudentGradeModel, Long> {
+
+}

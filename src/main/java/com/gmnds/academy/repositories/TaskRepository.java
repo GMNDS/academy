@@ -10,6 +10,6 @@ import java.util.Optional;
 
 
 @Repository
-public interface TaskRepository extends JpaRepository<SubjectModel, Long> {
-    Optional<TaskModel> findByName(String title);
+public interface TaskRepository extends JpaRepository<TaskModel, Long> {
+
 }

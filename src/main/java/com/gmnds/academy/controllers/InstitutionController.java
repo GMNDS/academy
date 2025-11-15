@@ -1,83 +1,103 @@
 package com.gmnds.academy.controllers;
 
 import com.gmnds.academy.dto.AddInstitutionDTO;
+import com.gmnds.academy.dto.InstitutionResponseDTO;
 import com.gmnds.academy.dto.UpdateInstitutionDTO;
-import com.gmnds.academy.models.CourseModel;
 import com.gmnds.academy.models.InstitutionModel;
-import com.gmnds.academy.repositories.InstitutionRepository;
+import com.gmnds.academy.services.InstitutionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/institutions")
+@Tag(name = "Instituições", description = "Gerenciamento de instituições de ensino")
 public class InstitutionController {
 
     @Autowired
-    InstitutionRepository repInstitution;
+    private InstitutionService institutionService;
 
     @GetMapping
-    public List<InstitutionModel> getAll() {
-        return repInstitution.findAll();
+    @Operation(summary = "Listar todas as instituições", description = "Retorna a lista completa de instituições cadastradas")
+    public List<InstitutionResponseDTO> getAll() {
+        List<InstitutionModel> institutions = institutionService.findAll();
+        return institutions.stream()
+                .map(institution -> new InstitutionResponseDTO(
+                        institution.getId(),
+                        institution.getName(),
+                        institution.getAcronym(),
+                        institution.getType(),
+                        institution.isActive()
+                ))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InstitutionModel> getbyId(@PathVariable Long id) {
-
-        return repInstitution.findById(id)
-                .map(institution -> ResponseEntity.ok().body(institution))
-                .orElse(ResponseEntity.notFound().build());
+    @Operation(summary = "Buscar instituição por ID", description = "Retorna uma instituição específica pelo ID")
+    public ResponseEntity<InstitutionResponseDTO> getbyId(@PathVariable Long id) {
+        try {
+            InstitutionModel institution = institutionService.findById(id);
+            InstitutionResponseDTO dto = new InstitutionResponseDTO(
+                    institution.getId(),
+                    institution.getName(),
+                    institution.getAcronym(),
+                    institution.getType(),
+                    institution.isActive()
+            );
+            return ResponseEntity.ok(dto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
+    @Operation(summary = "Criar instituição", description = "Cadastra uma nova instituição de ensino")
     public ResponseEntity<InstitutionModel> createInstitution(@RequestBody AddInstitutionDTO data) {
-
-        //InstitutionModel institutionModel = institutionOptional.get();
-
         InstitutionModel newInstitution = new InstitutionModel();
         newInstitution.setName(data.name());
         newInstitution.setAcronym(data.acronym());
         newInstitution.setType(data.type());
 
-        InstitutionModel savedInstitution = repInstitution.save(newInstitution);
+        InstitutionModel savedInstitution = institutionService.create(newInstitution);
         return ResponseEntity.status(201).body(savedInstitution);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar instituição", description = "Atualiza os dados de uma instituição existente")
     public ResponseEntity<InstitutionModel> updateInstitution(@PathVariable Long id, @RequestBody UpdateInstitutionDTO data) {
-        Optional<InstitutionModel> inst = repInstitution.findById(id);
-
-        if(inst.isPresent()) {
-            InstitutionModel existingInstitution = inst.get();
-            existingInstitution.setName(inst.get().getName());
-            existingInstitution.setAcronym(inst.get().getAcronym());
-            existingInstitution.setType(inst.get().getType());
-            existingInstitution.setActive(inst.get().isActive());
-
-            InstitutionModel updatedInstitution = repInstitution.save(existingInstitution);
-            return ResponseEntity.ok(updatedInstitution);
-
+        InstitutionModel existingInstitution = institutionService.findById(id);
+        
+        if (data.name() != null) {
+            existingInstitution.setName(data.name());
         }
-        return ResponseEntity.notFound().build();
+        if (data.acronym() != null) {
+            existingInstitution.setAcronym(data.acronym());
+        }
+        if (data.active() != null) {
+            existingInstitution.setActive(data.active());
+        }
+
+        try {
+            InstitutionModel updatedInstitution = institutionService.save(id, existingInstitution);
+            return ResponseEntity.ok(updatedInstitution);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar instituição", description = "Remove uma instituição pelo ID")
     public ResponseEntity<Void> deleteInstitution(@PathVariable Long id) {
-        Optional<InstitutionModel> inst = repInstitution.findById(id);
-
-        if (inst.isPresent()) {
-           boolean active = inst.get().isActive();
-           if (active) {
-               inst.get().setActive(false);
-               repInstitution.save(inst.get());
-                return ResponseEntity.ok().build();
-           }
-              return ResponseEntity.notFound().build();
+        try {
+            institutionService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
 }

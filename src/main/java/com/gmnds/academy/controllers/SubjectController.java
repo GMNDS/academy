@@ -1,45 +1,68 @@
 package com.gmnds.academy.controllers;
 
 import com.gmnds.academy.dto.AddSubjectDTO;
+import com.gmnds.academy.dto.SubjectResponseDTO;
 import com.gmnds.academy.dto.UpdateSubjectDTO;
 import com.gmnds.academy.models.SubjectModel;
-import com.gmnds.academy.repositories.SubjectRepository;
 import com.gmnds.academy.services.SubjectService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/subjects" )
+@Tag(name = "Disciplinas", description = "Gerenciamento de disciplinas")
 public class SubjectController {
 
     @Autowired
     private SubjectService subjectService;
 
-    @Autowired
-    private SubjectRepository subjectRepository;
-
-
-    //@GetMapping
-    //public List<SubjectModel> getAllSubjects() {
-    //
-    //    return null;
-    //}
+    @GetMapping
+    @Operation(summary = "Listar todas as disciplinas", description = "Retorna a lista completa de disciplinas cadastradas")
+    public List<SubjectResponseDTO> getAllSubjects() {
+        List<SubjectModel> subjects = subjectService.findAll();
+        return subjects.stream()
+                .map(subject -> new SubjectResponseDTO(
+                        subject.getId(),
+                        subject.getName(),
+                        subject.getCourse() != null ? subject.getCourse().getId() : null,
+                        subject.getCourse() != null ? subject.getCourse().getName() : null,
+                        subject.getCode(),
+                        subject.getTotalClasses(),
+                        subject.getProfessor() != null ? subject.getProfessor().getId() : null,
+                        subject.getProfessor() != null ? subject.getProfessor().getName() : null
+                ))
+                .toList();
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubjectModel> getSubjectById(@PathVariable Long id) {
-        // Busca por ID
-        return subjectRepository.findById(id)
-                .map(subject -> ResponseEntity.ok().body(subject))
-                .orElse(ResponseEntity.notFound().build());
+    @Operation(summary = "Buscar disciplina por ID", description = "Retorna uma disciplina específica pelo ID")
+    public ResponseEntity<SubjectResponseDTO> getSubjectById(@PathVariable Long id) {
+        try {
+            SubjectModel subject = subjectService.findById(id);
+            SubjectResponseDTO dto = new SubjectResponseDTO(
+                    subject.getId(),
+                    subject.getName(),
+                    subject.getCourse() != null ? subject.getCourse().getId() : null,
+                    subject.getCourse() != null ? subject.getCourse().getName() : null,
+                    subject.getCode(),
+                    subject.getTotalClasses(),
+                    subject.getProfessor() != null ? subject.getProfessor().getId() : null,
+                    subject.getProfessor() != null ? subject.getProfessor().getName() : null
+            );
+            return ResponseEntity.ok(dto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
+    @Operation(summary = "Criar disciplina", description = "Cadastra uma nova disciplina vinculada a um curso")
     public ResponseEntity<SubjectModel> createSubject(@RequestBody AddSubjectDTO data) {
-
         SubjectModel newSubject = new SubjectModel();
         newSubject.setName(data.name());
         newSubject.setCourse(data.course());
@@ -47,36 +70,34 @@ public class SubjectController {
         newSubject.setTotalClasses(data.totalClasses());
         newSubject.setProfessor(data.professor());
 
-        SubjectModel savedSubject = subjectRepository.save(newSubject);
-        return ResponseEntity.status(201).body(savedSubject);
+        try {
+            SubjectModel savedSubject = subjectService.create(newSubject);
+            return ResponseEntity.status(201).body(savedSubject);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSubject(@PathVariable Long id, @RequestBody UpdateSubjectDTO data) {
-        Optional<SubjectModel> subjectOptional = subjectRepository.findById(id);
-
-        if (subjectOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        SubjectModel existingSubject = subjectOptional.get();
-        // Atualiza os campos no DTO
-        existingSubject.setName(data.name());
-        existingSubject.setCourse(data.course());
-        existingSubject.setCode(data.code());
-        existingSubject.setTotalClasses(data.totalClasses());
-        existingSubject.setProfessor(data.professor());
+    @Operation(summary = "Atualizar disciplina", description = "Atualiza os dados de uma disciplina existente")
+    public ResponseEntity<SubjectModel> updateSubject(@PathVariable Long id, @RequestBody UpdateSubjectDTO data) {
+        SubjectModel newData = new SubjectModel();
+        newData.setName(data.name());
+        newData.setCourse(data.course());
+        newData.setCode(data.code());
+        newData.setTotalClasses(data.totalClasses());
+        newData.setProfessor(data.professor());
 
         try {
-            SubjectModel updatedSubject = subjectService.update(id, existingSubject);
+            SubjectModel updatedSubject = subjectService.save(id, newData);
             return ResponseEntity.ok(updatedSubject);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
-
         }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar disciplina", description = "Remove uma disciplina pelo ID")
     public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
         try {
             subjectService.delete(id);
@@ -84,6 +105,5 @@ public class SubjectController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.noContent().build();
     }
 }

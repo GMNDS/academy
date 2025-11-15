@@ -24,7 +24,7 @@ public class StudentGradeModel {
     private StudentModel student;
     @ManyToOne
     @JoinColumn(name = "grade_id")
-    @Schema(description = "Peso da avaliação associado à nota", example = "1", required = true)
+    @Schema(description = "Avaliação (P1, P2, etc) associada à nota", example = "1", required = true)
     private GradeModel grade;
     @ManyToOne
     @JoinColumn(name = "subject_id")

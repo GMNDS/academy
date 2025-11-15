@@ -7,6 +7,8 @@ import com.gmnds.academy.models.CourseModel;
 import com.gmnds.academy.models.InstitutionModel;
 import com.gmnds.academy.repositories.InstitutionRepository;
 import com.gmnds.academy.services.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/courses")
+@Tag(name = "Cursos", description = "Gerenciamento de cursos")
 public class CourseController {
 
     @Autowired
@@ -25,6 +28,7 @@ public class CourseController {
     private InstitutionRepository institutionRepository;
 
     @GetMapping
+    @Operation(summary = "Listar todos os cursos", description = "Retorna a lista completa de cursos cadastrados")
     public List<CourseResponseDTO> getAllCourses() {
         List<CourseModel> courses = courseService.findAll();
         return courses.stream()
@@ -41,6 +45,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar curso por ID", description = "Retorna um curso específico pelo ID")
     public ResponseEntity<CourseResponseDTO> getCourseById(@PathVariable Long id) {
         try {
             CourseModel course = courseService.findById(id);
@@ -60,6 +65,7 @@ public class CourseController {
     }
 
     @PostMapping
+    @Operation(summary = "Criar curso", description = "Cadastra um novo curso vinculado a uma instituição")
     public ResponseEntity<?> createCourse(@RequestBody AddCourseDTO data) {
 
         Optional<InstitutionModel> institutionOptional = institutionRepository.findByNameIgnoreCase(data.institution());
@@ -91,6 +97,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar curso", description = "Atualiza os dados de um curso existente")
     public ResponseEntity<?> updateCourse(@PathVariable Long id, @RequestBody UpdateCourseDTO data) {
 
         Optional<InstitutionModel> institutionOptional = institutionRepository.findByNameIgnoreCase(data.institution());
@@ -108,7 +115,7 @@ public class CourseController {
         newData.setActive(data.isActive());
 
         try {
-            CourseModel updatedCourse = courseService.update(id, newData);
+            CourseModel updatedCourse = courseService.save(id, newData);
             CourseResponseDTO dto = new CourseResponseDTO(
                     updatedCourse.getId(),
                     updatedCourse.getName(),
@@ -125,6 +132,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar curso", description = "Remove um curso pelo ID")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
         try {
             courseService.findById(id);

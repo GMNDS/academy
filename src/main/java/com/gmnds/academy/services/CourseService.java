@@ -2,53 +2,77 @@ package com.gmnds.academy.services;
 
 import com.gmnds.academy.models.CourseModel;
 import com.gmnds.academy.repositories.CourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gmnds.academy.repositories.InstitutionRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
+    private final CourseRepository courseRepository;
+    private final InstitutionRepository institutionRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
 
-    public List<CourseModel> findAll() {
-        return courseRepository.findAll();
+    public CourseService(CourseRepository courseRepository, InstitutionRepository institutionRepository) {
+        this.courseRepository = courseRepository;
+        this.institutionRepository = institutionRepository;
     }
 
-    @Cacheable(value = "course", key = "#id")
-    public CourseModel findById(Long id) {
-        Optional<CourseModel> courseOptional = courseRepository.findById(id);
-        if (courseOptional.isEmpty()) {
-            throw new RuntimeException("Course not found");
-        }
-        return courseOptional.get();
-    }
-
-    @CachePut(value = "course", key = "#result.id")
+    @CacheEvict(value = {"courses"}, allEntries = true)
     public CourseModel create(CourseModel course) {
+        validateInstitution(course.getInstitution().getId());
         return courseRepository.save(course);
     }
 
-    @CachePut(value = "course", key = "#id")
-    public CourseModel update(Long id, CourseModel newData) {
-        CourseModel existingCourse = findById(id);
-        existingCourse.setName(newData.getName());
-        existingCourse.setInstitution(newData.getInstitution());
-        existingCourse.setDuration(newData.getDuration());
-        existingCourse.setCategory(newData.getCategory());
-        existingCourse.setFrequency(newData.getFrequency());
-        existingCourse.setActive(newData.isActive());
-        return courseRepository.save(existingCourse);
+
+
+    @Cacheable(value = "courses")
+    public List<CourseModel> findAll() {
+        return courseRepository.findAll();
+
     }
 
-    @CacheEvict(value = "course", key = "#id")
-    public void delete(Long id) {
+
+    @Cacheable(value = "course", key = "#id")
+    public CourseModel findById(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+    }
+
+
+    @CachePut(value = "course", key = "#id")
+    @CacheEvict(value = {"courses"}, allEntries = true)
+    public CourseModel save(Long id, CourseModel newData) {
+        CourseModel course = findById(id);
+
+        course.setName(newData.getName());
+        course.setDuration(newData.getDuration());
+        course.setCategory(newData.getCategory());
+        course.setFrequency(newData.getFrequency());
+        course.setActive(newData.isActive());
+
+        if (newData.getInstitution() != null) {
+            validateInstitution(newData.getInstitution().getId());
+            course.setInstitution(newData.getInstitution());
+        }
+
+        return courseRepository.save(course);
+    }
+
+
+    @CacheEvict(value= {"courses", "course"}, allEntries = true)
+    public void delete(Long id){
         courseRepository.deleteById(id);
+    }
+
+    private void validateInstitution(Long institutionId) {
+        boolean exists = institutionRepository.existsById(institutionId);
+        if (!exists) {
+            throw new RuntimeException("Instituição não encontrada");
+        }
+
     }
 }
