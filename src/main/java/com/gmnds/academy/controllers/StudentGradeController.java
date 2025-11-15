@@ -6,6 +6,10 @@ import com.gmnds.academy.dto.UpdateStudentGradeDTO;
 import com.gmnds.academy.models.StudentGradeModel;
 import com.gmnds.academy.services.StudentGradeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,12 @@ public class StudentGradeController {
 
     @Autowired
     private StudentGradeService studentGradeService;
+    @Autowired
+    private com.gmnds.academy.repositories.StudentRepository studentRepository;
+    @Autowired
+    private com.gmnds.academy.repositories.GradeRepository gradeRepository;
+    @Autowired
+    private com.gmnds.academy.repositories.SubjectRepository subjectRepository;
 
     @GetMapping
     @Operation(summary = "Listar todas as notas", description = "Retorna a lista completa de notas dos estudantes")
@@ -63,12 +73,24 @@ public class StudentGradeController {
     }
 
     @PostMapping
-    @Operation(summary = "Criar nota", description = "Registra uma nova nota para um estudante em uma disciplina")
+    @Operation(summary = "Criar nota", description = "Registra uma nova nota para um estudante em uma disciplina",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = AddStudentGradeDTO.class),
+                       examples = @ExampleObject(value = "{\"studentId\":1, \"gradeId\":2, \"subjectId\":3, \"score\":8.5}"))))
     public ResponseEntity<StudentGradeModel> createStudentGrade(@RequestBody AddStudentGradeDTO data) {
         StudentGradeModel newStudentGrade = new StudentGradeModel();
-        newStudentGrade.setStudent(data.student());
-        newStudentGrade.setGrade(data.grade());
-        newStudentGrade.setSubject(data.subject());
+        if (data.studentId() != null) {
+            var student = studentRepository.findById(data.studentId()).orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+            newStudentGrade.setStudent(student);
+        }
+        if (data.gradeId() != null) {
+            var grade = gradeRepository.findById(data.gradeId()).orElseThrow(() -> new RuntimeException("Peso de avaliação não encontrado"));
+            newStudentGrade.setGrade(grade);
+        }
+        if (data.subjectId() != null) {
+            var subject = subjectRepository.findById(data.subjectId()).orElseThrow(() -> new RuntimeException("Matéria não encontrada"));
+            newStudentGrade.setSubject(subject);
+        }
         newStudentGrade.setScore(data.score());
 
         try {
@@ -80,12 +102,24 @@ public class StudentGradeController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar nota", description = "Atualiza uma nota existente")
+    @Operation(summary = "Atualizar nota", description = "Atualiza uma nota existente",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = UpdateStudentGradeDTO.class),
+                       examples = @ExampleObject(value = "{\"studentId\":1, \"gradeId\":2, \"subjectId\":3, \"score\":7.0}"))))
     public ResponseEntity<StudentGradeModel> updateStudentGrade(@PathVariable Long id, @RequestBody UpdateStudentGradeDTO data) {
         StudentGradeModel newData = new StudentGradeModel();
-        newData.setStudent(data.student());
-        newData.setGrade(data.grade());
-        newData.setSubject(data.subject());
+        if (data.studentId() != null) {
+            var student = studentRepository.findById(data.studentId()).orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+            newData.setStudent(student);
+        }
+        if (data.gradeId() != null) {
+            var grade = gradeRepository.findById(data.gradeId()).orElseThrow(() -> new RuntimeException("Peso de avaliação não encontrado"));
+            newData.setGrade(grade);
+        }
+        if (data.subjectId() != null) {
+            var subject = subjectRepository.findById(data.subjectId()).orElseThrow(() -> new RuntimeException("Matéria não encontrada"));
+            newData.setSubject(subject);
+        }
         newData.setScore(data.score());
 
         try {

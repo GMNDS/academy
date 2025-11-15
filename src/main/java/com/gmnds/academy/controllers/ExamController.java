@@ -4,6 +4,10 @@ import com.gmnds.academy.dto.*;
 import com.gmnds.academy.models.ExamModel;
 import com.gmnds.academy.services.ExamService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,8 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
+    @Autowired
+    private com.gmnds.academy.repositories.SubjectRepository subjectRepository;
 
     @GetMapping
     @Operation(summary = "Listar todas as provas", description = "Retorna a lista completa de provas cadastradas")
@@ -55,10 +61,16 @@ public class ExamController {
     }
 
     @PostMapping
-    @Operation(summary = "Criar prova", description = "Cadastra uma nova prova para uma disciplina")
+    @Operation(summary = "Criar prova", description = "Cadastra uma nova prova para uma disciplina",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = AddExamDTO.class),
+                       examples = @ExampleObject(value = "{\"subjectId\":2, \"exam_date\":\"2025-12-01\", \"type\":\"P1\"}"))))
     public ResponseEntity<ExamModel> createExam(@RequestBody AddExamDTO data) {
         ExamModel newExam = new ExamModel();
-        newExam.setSubject(data.subject());
+        if (data.subjectId() != null) {
+            var subject = subjectRepository.findById(data.subjectId()).orElseThrow(() -> new RuntimeException("Matéria não encontrada"));
+            newExam.setSubject(subject);
+        }
         newExam.setExamDate(data.exam_date());
         newExam.setType(data.type());
 
@@ -72,10 +84,16 @@ public class ExamController {
 
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar prova", description = "Atualiza os dados de uma prova existente")
+    @Operation(summary = "Atualizar prova", description = "Atualiza os dados de uma prova existente",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = UpdateExamDTO.class),
+                       examples = @ExampleObject(value = "{\"subjectId\":2, \"exam_date\":\"2025-12-05\", \"type\":\"P2\"}"))))
     public ResponseEntity<ExamModel> updateExam(@PathVariable Long id, @RequestBody UpdateExamDTO data) {
         ExamModel newData = new ExamModel();
-        newData.setSubject(data.subject());
+        if (data.subjectId() != null) {
+            var subject = subjectRepository.findById(data.subjectId()).orElseThrow(() -> new RuntimeException("Matéria não encontrada"));
+            newData.setSubject(subject);
+        }
         newData.setExamDate(data.exam_date());
         newData.setType(data.type());
 

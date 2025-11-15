@@ -6,6 +6,10 @@ import com.gmnds.academy.dto.UpdateGradeDTO;
 import com.gmnds.academy.models.GradeModel;
 import com.gmnds.academy.services.GradeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,8 @@ public class GradeController {
 
     @Autowired
     private GradeService gradeService;
+    @Autowired
+    private com.gmnds.academy.repositories.InstitutionRepository institutionRepository;
 
     @GetMapping
     @Operation(summary = "Listar todos os pesos", description = "Retorna a lista completa de Notas finais")
@@ -55,12 +61,18 @@ public class GradeController {
     }
 
     @PostMapping
-    @Operation(summary = "Criar peso de avaliação", description = "Cadastra um novo peso de avaliação")
+    @Operation(summary = "Criar peso de avaliação", description = "Cadastra um novo peso de avaliação",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = AddGradeDTO.class),
+                       examples = @ExampleObject(value = "{\"name\":\"P1\", \"weight\":0.3, \"institutionId\":1}"))))
     public ResponseEntity<GradeModel> createGrade(@RequestBody AddGradeDTO data) {
         GradeModel newGrade = new GradeModel();
         newGrade.setName(data.name());
         newGrade.setWeight(data.weight());
-        newGrade.setInstitution(data.institution());
+        if (data.institutionId() != null) {
+            var institution = institutionRepository.findById(data.institutionId()).orElseThrow(() -> new RuntimeException("Instituição não encontrada"));
+            newGrade.setInstitution(institution);
+        }
 
         try {
             GradeModel savedGrade = gradeService.create(newGrade);
@@ -71,12 +83,18 @@ public class GradeController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar peso de avaliação", description = "Atualiza um peso de avaliação existente")
+    @Operation(summary = "Atualizar peso de avaliação", description = "Atualiza um peso de avaliação existente",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                       schema = @Schema(implementation = UpdateGradeDTO.class),
+                       examples = @ExampleObject(value = "{\"name\":\"P1\", \"weight\":0.35, \"institutionId\":1}"))))
     public ResponseEntity<GradeModel> updateGrade(@PathVariable Long id, @RequestBody UpdateGradeDTO data) {
         GradeModel newData = new GradeModel();
         newData.setName(data.name());
         newData.setWeight(data.weight());
-        newData.setInstitution(data.institution());
+        if (data.institutionId() != null) {
+            var institution = institutionRepository.findById(data.institutionId()).orElseThrow(() -> new RuntimeException("Instituição não encontrada"));
+            newData.setInstitution(institution);
+        }
 
         try {
             GradeModel updatedGrade = gradeService.save(id, newData);
