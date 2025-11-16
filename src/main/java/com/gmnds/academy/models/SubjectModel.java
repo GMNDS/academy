@@ -1,10 +1,13 @@
 package com.gmnds.academy.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name= "subjects",
@@ -44,5 +47,21 @@ public class SubjectModel implements java.io.Serializable {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private ProfessorModel professor;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<StudentGradeModel> studentGrades = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<ExamModel> exams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<TaskModel> tasks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<AbsenceModel> absences = new ArrayList<>();
 
 }

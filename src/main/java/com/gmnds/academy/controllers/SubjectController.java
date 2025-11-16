@@ -132,13 +132,19 @@ public class SubjectController {
                        examples = @ExampleObject(value = "{\"name\":\"Matemática II\", \"courseId\":2, \"code\":\"MAT102\", \"totalClasses\":80, \"professorId\":1}"))))
     public ResponseEntity<SubjectModel> updateSubject(@PathVariable Long id, @RequestBody UpdateSubjectDTO data) {
         SubjectModel newData = new SubjectModel();
-        newData.setName(data.name());
+        if (data.name() != null) {
+            newData.setName(data.name());
+        }
         if (data.courseId() != null) {
             var course = courseRepository.findById(data.courseId()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
             newData.setCourse(course);
         }
-        newData.setCode(data.code());
-        newData.setTotalClasses(data.totalClasses());
+        if (data.code() != null) {
+            newData.setCode(data.code());
+        }
+        if (data.totalClasses() != null) {
+            newData.setTotalClasses(data.totalClasses());
+        }
         if (data.professorId() != null) {
             var professor = professorRepository.findById(data.professorId()).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
             newData.setProfessor(professor);

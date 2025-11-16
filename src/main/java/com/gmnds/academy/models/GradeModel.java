@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.List;
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gmnds.academy.models.StudentGradeModel;
 
 
 @Entity
@@ -37,5 +41,9 @@ public class GradeModel implements java.io.Serializable {
     @JoinColumn(name = "institution_id")
     @Schema(description = "ID da Instituição de ensino associada ao peso da avaliação", example = "1")
     private InstitutionModel institution;
+
+    @OneToMany(mappedBy = "grade", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<StudentGradeModel> studentGrades = new ArrayList<>();
 
 }

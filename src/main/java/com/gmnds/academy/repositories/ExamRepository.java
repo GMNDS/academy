@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ExamRepository extends JpaRepository<ExamModel, Long> {
     Optional<ExamModel> findByExamDate(LocalDate examDate);
+    boolean existsBySubjectId(Long subjectId);
 }

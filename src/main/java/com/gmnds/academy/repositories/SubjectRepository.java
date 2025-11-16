@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<SubjectModel, Long> {
     Optional<SubjectModel> findByName(String name);
+    boolean existsByCourseId(Long courseId);
+    boolean existsByProfessorId(Long professorId);
 }

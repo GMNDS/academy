@@ -12,5 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface StudentGradeRepository extends JpaRepository<StudentGradeModel, Long> {
-
+    boolean existsByGradeId(Long gradeId);
+    boolean existsBySubjectId(Long subjectId);
+    boolean existsByStudentId(Long studentId);
 }

@@ -11,5 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<TaskModel, Long> {
-
+    boolean existsBySubjectId(Long subjectId);
+    boolean existsByStudentId(Long studentId);
 }
