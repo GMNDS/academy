@@ -25,7 +25,8 @@ import java.util.List;
 @ToString(exclude = {"institution", "course", "studentGrades", "absences", "tasks"})
 @EqualsAndHashCode(exclude = {"institution", "course", "studentGrades", "absences", "tasks"})
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StudentModel implements UserDetails {
+public class StudentModel implements UserDetails, java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

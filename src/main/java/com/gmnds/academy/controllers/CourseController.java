@@ -35,7 +35,7 @@ public class CourseController {
                 .map(course -> new CourseResponseDTO(
                         course.getId(),
                         course.getName(),
-                    course.getInstitution().getName(),
+                        course.getInstitution() != null ? course.getInstitution().getName() : null,
                         course.getDuration(),
                         course.getCategory(),
                         course.getFrequency(),
