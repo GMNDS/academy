@@ -36,10 +36,10 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register-simple").permitAll()
                         // Swagger/OpenAPI
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui/index.html", "/docs.html").permitAll()
                         // So admin acessa
+                        .requestMatchers(HttpMethod.POST, "/auth/register-simple").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/institutions/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/courses/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/institutions/**").hasRole("ADMIN")
@@ -47,6 +47,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.DELETE, "/institutions/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/courses/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                        // Subjects - qualquer usuário autenticado pode criar
+                        .requestMatchers(HttpMethod.POST, "/subjects").authenticated()
                         // Tudo o resto autenticado
                         .anyRequest().authenticated()
                 )

@@ -21,8 +21,4 @@ public class ProfessorModel {
     
     @Schema(description = "Nome completo do professor", example = "Dr. João Silva")
     private String name;
-//    private String email;
-//    @ManyToOne
-//    @JoinColumn(name = "institution_id")
-//    private InstitutionModel institution;
 }

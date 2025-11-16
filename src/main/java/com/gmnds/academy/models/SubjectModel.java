@@ -16,7 +16,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class SubjectModel {
 
 

@@ -22,9 +22,10 @@ public class RedisConfig {
     @Bean
         @ConditionalOnBean(RedisConnectionFactory.class)
         public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        // Configura ObjectMapper com suporte para Java 8 date/time
+        // Configura ObjectMapper com suporte para Java 8 date/time e records
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new com.fasterxml.jackson.module.paramnames.ParameterNamesModule());
         objectMapper.activateDefaultTyping(
                 LaissezFaireSubTypeValidator.instance,
                 ObjectMapper.DefaultTyping.NON_FINAL,

@@ -4,7 +4,6 @@ import com.gmnds.academy.dto.*;
 import com.gmnds.academy.models.ExamModel;
 import com.gmnds.academy.services.ExamService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;

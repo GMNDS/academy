@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,12 +25,18 @@ public class SubjectService {
         this.professorRepository = professorRepository;
     }
 
+    @Transactional
     @CacheEvict(value = {"subjects"}, allEntries = true)
     public SubjectModel create(SubjectModel subject) {
-        validateCourse(subject.getCourse().getId());
-        if (subject.getProfessor() != null) {
-            validateProfessor(subject.getProfessor().getId());
+        // Validar se o curso existe e tem ID
+        if (subject.getCourse() == null) {
+            throw new RuntimeException("Curso não pode ser nulo");
         }
+        if (subject.getCourse().getId() == null) {
+            throw new RuntimeException("O ID do curso não pode ser nulo");
+        }
+        validateCourse(subject.getCourse().getId());
+        // Professor já é criado no controller, não precisa validar aqui
         return subjectRepository.save(subject);
     }
 

@@ -6,7 +6,6 @@ import com.gmnds.academy.dto.UpdateStudentGradeDTO;
 import com.gmnds.academy.models.StudentGradeModel;
 import com.gmnds.academy.services.StudentGradeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
