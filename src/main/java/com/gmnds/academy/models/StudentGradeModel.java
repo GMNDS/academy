@@ -20,7 +20,7 @@ public class StudentGradeModel implements java.io.Serializable {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @JsonBackReference
+    @JsonBackReference(value = "student-grades")
     @Schema(description = "Estudante associado à nota", example = "1", required = true)
     private StudentModel student;
     @ManyToOne
@@ -29,7 +29,7 @@ public class StudentGradeModel implements java.io.Serializable {
     private GradeModel grade;
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    @JsonBackReference
+    @JsonBackReference(value = "subject-grades")
     @Schema(description = "Disciplina associada à nota", example = "1", required = true)
     private SubjectModel subject;
     @Schema(description = "Nota obtida pelo estudante na avaliação", example = "8.5", required = true)

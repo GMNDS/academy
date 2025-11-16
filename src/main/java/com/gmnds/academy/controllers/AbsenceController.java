@@ -1,7 +1,11 @@
 package com.gmnds.academy.controllers;
 
+import com.gmnds.academy.dto.AddAbsenceDTO;
 import com.gmnds.academy.dto.AbsenceResponseDTO;
+import com.gmnds.academy.dto.UpdateAbsenceDTO;
 import com.gmnds.academy.models.AbsenceModel;
+import com.gmnds.academy.repositories.StudentRepository;
+import com.gmnds.academy.repositories.SubjectRepository;
 import com.gmnds.academy.services.AbsenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +22,12 @@ public class AbsenceController {
 
     @Autowired
     private AbsenceService absenceService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 
 
     @GetMapping
@@ -60,24 +70,93 @@ public class AbsenceController {
     }
 
     @PostMapping
-    @Operation(summary = "Criar registro de frequência", description = "Cria um novo registro de frequência para um estudante em uma disciplina")
-    public ResponseEntity<AbsenceModel> createAbsence(@RequestBody AbsenceModel data) {
+    @Operation(summary = "Criar registro de frequência", description = "Cria um novo registro de frequência para um estudante em uma disciplina",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",
+                       schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = AddAbsenceDTO.class))))
+    public ResponseEntity<AbsenceResponseDTO> createAbsence(@RequestBody AddAbsenceDTO data) {
         try {
-            AbsenceModel savedAbsence = absenceService.create(data);
-            return ResponseEntity.status(201).body(savedAbsence);
+            // Buscar estudante
+            var student = studentRepository.findById(data.studentId())
+                .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+
+            // Buscar disciplina
+            var subject = subjectRepository.findById(data.subjectId())
+                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+
+            // Criar registro de frequência
+            AbsenceModel newAbsence = AbsenceModel.builder()
+                .student(student)
+                .subject(subject)
+                .totalClasses(data.totalClasses())
+                .attendances(data.attendances())
+                .build();
+
+            AbsenceModel savedAbsence = absenceService.create(newAbsence);
+
+            AbsenceResponseDTO response = new AbsenceResponseDTO(
+                savedAbsence.getId(),
+                savedAbsence.getStudent().getId(),
+                savedAbsence.getStudent().getName(),
+                savedAbsence.getSubject().getId(),
+                savedAbsence.getSubject().getName(),
+                savedAbsence.getTotalClasses(),
+                savedAbsence.getAttendances(),
+                savedAbsence.getPercentage()
+            );
+
+            return ResponseEntity.status(201).body(response);
         } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar registro de frequência", description = "Atualiza um registro de frequência existente")
-    public ResponseEntity<AbsenceModel> updateAbsence(@PathVariable Long id, @RequestBody AbsenceModel data) {
+    @Operation(summary = "Atualizar registro de frequência", description = "Atualiza um registro de frequência existente",
+               requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",
+                       schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = UpdateAbsenceDTO.class))))
+    public ResponseEntity<AbsenceResponseDTO> updateAbsence(@PathVariable Long id, @RequestBody UpdateAbsenceDTO data) {
         try {
-            AbsenceModel updatedAbsence = absenceService.save(id, data);
-            return ResponseEntity.ok(updatedAbsence);
+            AbsenceModel existingAbsence = absenceService.findById(id);
+
+            // Atualizar estudante se fornecido
+            if (data.studentId() != null) {
+                var student = studentRepository.findById(data.studentId())
+                    .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+                existingAbsence.setStudent(student);
+            }
+
+            // Atualizar disciplina se fornecida
+            if (data.subjectId() != null) {
+                var subject = subjectRepository.findById(data.subjectId())
+                    .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+                existingAbsence.setSubject(subject);
+            }
+
+            // Atualizar outros campos se fornecidos
+            if (data.totalClasses() != null) {
+                existingAbsence.setTotalClasses(data.totalClasses());
+            }
+            if (data.attendances() != null) {
+                existingAbsence.setAttendances(data.attendances());
+            }
+
+            AbsenceModel updatedAbsence = absenceService.save(id, existingAbsence);
+
+            AbsenceResponseDTO response = new AbsenceResponseDTO(
+                updatedAbsence.getId(),
+                updatedAbsence.getStudent().getId(),
+                updatedAbsence.getStudent().getName(),
+                updatedAbsence.getSubject().getId(),
+                updatedAbsence.getSubject().getName(),
+                updatedAbsence.getTotalClasses(),
+                updatedAbsence.getAttendances(),
+                updatedAbsence.getPercentage()
+            );
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 

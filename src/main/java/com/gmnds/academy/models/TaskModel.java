@@ -24,13 +24,13 @@ public class TaskModel implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @JsonBackReference
+    @JsonBackReference(value = "student-tasks")
     @Schema(description = "Estudante responsável pela tarefa")
     private StudentModel student;
     
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    @JsonBackReference
+    @JsonBackReference(value = "subject-tasks")
     @Schema(description = "Disciplina da tarefa")
     private SubjectModel subject;
     

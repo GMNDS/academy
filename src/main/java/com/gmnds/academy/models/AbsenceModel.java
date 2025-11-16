@@ -23,13 +23,13 @@ public class AbsenceModel implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @JsonBackReference
+    @JsonBackReference(value = "student-absences")
     @Schema(description = "Estudante associado à frequência")
     private StudentModel student;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    @JsonBackReference
+    @JsonBackReference(value = "subject-absences")
     @Schema(description = "Disciplina associada à frequência")
     private SubjectModel subject;
 
