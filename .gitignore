@@ -9,6 +9,7 @@ target/
 .apt_generated
 .classpath
 .factorypath
+.env.test
 .project
 .settings
 .springBeans

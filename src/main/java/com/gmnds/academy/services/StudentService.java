@@ -50,6 +50,42 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
     }
 
+    /**
+     * Returns a lightweight DTO list with institution and course names filled when available.
+     */
+    public List<com.gmnds.academy.dto.StudentResponseDTO> findAllDTO() {
+        var students = studentRepository.findAllWithInstitutionAndCourse();
+        return students.stream().map(this::toDto).toList();
+    }
+
+    public com.gmnds.academy.dto.StudentResponseDTO findByIdDTO(Long id) {
+        var optional = studentRepository.findByIdWithInstitutionAndCourse(id);
+        if (optional.isPresent()) {
+            return toDto(optional.get());
+        }
+
+        // fallback: check the cached list
+        var all = findAllDTO();
+        return all.stream().filter(dto -> dto.id().equals(id)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+    }
+
+    private com.gmnds.academy.dto.StudentResponseDTO toDto(StudentModel s) {
+        return new com.gmnds.academy.dto.StudentResponseDTO(
+                s.getId(),
+                s.getRa(),
+                s.getName(),
+                s.getPhoto(),
+                s.getInstitution() != null ? s.getInstitution().getName() : null,
+                s.getCourse() != null ? s.getCourse().getName() : null,
+                s.getSemester(),
+                s.getAverage_grade(),
+                s.getEmail(),
+                s.getRole(),
+                s.isActive()
+        );
+    }
+
 
     @CachePut(value = "student", key = "#id")
     @CacheEvict(value = {"students"}, allEntries = true)

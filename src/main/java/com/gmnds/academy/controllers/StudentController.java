@@ -26,22 +26,7 @@ public class StudentController {
     @GetMapping
     @Operation(summary = "Listar todos os estudantes", description = "Retorna a lista completa de estudantes cadastrados")
     public List<StudentResponseDTO> getAllStudents() {
-        List<StudentModel> students = studentService.findAll();
-        return students.stream()
-                .map(student -> new StudentResponseDTO(
-                        student.getId(),
-                        student.getRa(),
-                        student.getName(),
-                        student.getPhoto(),
-                        student.getInstitution() != null ? student.getInstitution().getName() : null,
-                        student.getCourse() != null ? student.getCourse().getName() : null,
-                        student.getSemester(),
-                        student.getAverage_grade(),
-                        student.getEmail(),
-                        student.getRole(),
-                        student.isActive()
-                ))
-                .toList();
+        return studentService.findAllDTO();
     }
 
     private boolean validateStudentAcess(Long id, String authorization) {
@@ -60,20 +45,7 @@ public class StudentController {
         }
 
         try {
-            StudentModel student = studentService.findById(id);
-            StudentResponseDTO dto = new StudentResponseDTO(
-                    student.getId(),
-                    student.getRa(),
-                    student.getName(),
-                    student.getPhoto(),
-                    student.getInstitution() != null ? student.getInstitution().getName() : null,
-                    student.getCourse() != null ? student.getCourse().getName() : null,
-                    student.getSemester(),
-                    student.getAverage_grade(),
-                    student.getEmail(),
-                    student.getRole(),
-                    student.isActive()
-            );
+            com.gmnds.academy.dto.StudentResponseDTO dto = studentService.findByIdDTO(id);
             return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

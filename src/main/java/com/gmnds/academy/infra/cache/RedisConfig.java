@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -19,7 +20,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        @ConditionalOnBean(RedisConnectionFactory.class)
+        public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         // Configura ObjectMapper com suporte para Java 8 date/time
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -46,3 +48,12 @@ public class RedisConfig {
                 .build();
     }
 }
+
+/*
+ * Note: Spring Data Redis repository scanning is disabled via property
+ * `spring.data.redis.repositories.enabled=false` (application.properties). We only
+ * use Redis for caching with `RedisCacheManager`. If you later decide to use
+ * Redis as a key-value store with Spring Data repositories, add
+ * `@RedisHash` to the corresponding entities or enable repositories with
+ * `@EnableRedisRepositories` and adjust the package scan.
+ */

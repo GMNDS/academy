@@ -35,7 +35,7 @@ public class CourseController {
                 .map(course -> new CourseResponseDTO(
                         course.getId(),
                         course.getName(),
-                        course.getInstitution().getName(),
+                    course.getInstitution().getName(),
                         course.getDuration(),
                         course.getCategory(),
                         course.getFrequency(),
@@ -49,7 +49,7 @@ public class CourseController {
     public ResponseEntity<CourseResponseDTO> getCourseById(@PathVariable Long id) {
         try {
             CourseModel course = courseService.findById(id);
-            CourseResponseDTO dto = new CourseResponseDTO(
+                CourseResponseDTO dto = new CourseResponseDTO(
                     course.getId(),
                     course.getName(),
                     course.getInstitution().getName(),

@@ -45,6 +45,8 @@ public class AuthenticationController {
     private InstitutionRepository institutionRepository;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private com.gmnds.academy.services.StudentService studentService;
 
     @PostMapping("login")
     @Operation(summary = "Login", description = "Autentica um usuário e retorna um token JWT")
@@ -63,7 +65,7 @@ public class AuthenticationController {
         try {
             // Valida se o e-mail já existe
             if (this.repUser.findByEmail(data.email()) != null) {
-                return ResponseEntity.badRequest().body("E-mail já cadastrado");
+                return ResponseEntity.badRequest().body(new com.gmnds.academy.dto.ErrorDTO("E-mail já cadastrado"));
             }
 
             // 1. Verifica ou cria a instituição
@@ -110,9 +112,23 @@ public class AuthenticationController {
                 .active(true)
                 .build();
 
-            this.repUser.save(newStudent);
+                var savedStudent = this.studentService.create(newStudent);
 
-            return ResponseEntity.ok().body("Estudante registrado com sucesso");
+                var dto = new com.gmnds.academy.dto.StudentResponseDTO(
+                    savedStudent.getId(),
+                    savedStudent.getRa(),
+                    savedStudent.getName(),
+                    savedStudent.getPhoto(),
+                    savedStudent.getInstitution() != null ? savedStudent.getInstitution().getName() : null,
+                    savedStudent.getCourse() != null ? savedStudent.getCourse().getName() : null,
+                    savedStudent.getSemester(),
+                    savedStudent.getAverage_grade(),
+                    savedStudent.getEmail(),
+                    savedStudent.getRole(),
+                    savedStudent.isActive()
+                );
+
+                return ResponseEntity.ok(dto);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao registrar estudante: " + e.getMessage());
