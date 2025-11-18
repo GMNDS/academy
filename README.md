@@ -12,7 +12,10 @@ não  vamos parar por aqui, não importa se você é anão ou não tem uma mão
 
 E você acha que acabou? Estudantes de vários cursos poderão se aprimorar trocando conhecimento em nosso fórum exclusivo do Academy. Não importa se você é de São Paulo ou Teresina, o nível de conhecimento só vai pra cima.
 
-## Redis
+## Integrantes
 
-- O projeto usa Redis para cache (`spring.cache.type=redis`). Se você vir mensagens de log sugerindo que o Spring Data Redis não conseguiu atribuir repositórios, isso pode ser porque você possui repositórios JPA (ex.: `JpaRepository`) e não pretende usar Redis como armazenamento chave-valor.
-- Para evitar essas mensagens, a variação `spring.data.redis.repositories.enabled=false` está configurada em `application.properties` — assim o Redis é usado apenas como cache.
+- Enzo Luz
+- Gabriel Menezes da Silva
+- Giulia Grossi
+- João Sousa
+- Matheus Nascimento Holanda
